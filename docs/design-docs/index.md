@@ -16,6 +16,7 @@
 | --- | --- | --- |
 | [core-beliefs.md](core-beliefs.md) | Операционные принципы работы (golden principles) | accepted |
 | [../product/main.md](../product/main.md) | Продуктовое видение прототипа (v1) | draft |
+| [../product/conceptual-product.md](../product/conceptual-product.md) | Концепция реализации (UX + техническая) | draft |
 | [../techstack/main.md](../techstack/main.md) | Технологический стек | draft |
 | [../../ARCHITECTURE.md](../../ARCHITECTURE.md) | Верхнеуровневая архитектура | draft |
 
