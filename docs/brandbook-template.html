@@ -1,0 +1,1605 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>APM ГлоуБайт — Design System Brandbook</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    /* ========================================
+       APM ГлоуБайт — DESIGN SYSTEM
+       Business / Light / Professional
+       ======================================== */
+
+    :root {
+      /* === COLOR PALETTE === */
+
+      /* Surface — Light backgrounds */
+      --color-bg-canvas: #f6f8fb;
+      --color-bg-surface: #ffffff;
+      --color-bg-subtle: #f1f4f8;
+      --color-bg-muted: #e9edf3;
+      --color-bg-hover: #eef2f7;
+
+      /* Text */
+      --color-text-primary: #0f172a;
+      --color-text-secondary: #475569;
+      --color-text-muted: #64748b;
+      --color-text-placeholder: #94a3b8;
+      --color-text-inverse: #ffffff;
+
+      /* Brand accent — Corporate blue */
+      --color-accent: #2563eb;
+      --color-accent-hover: #1d4ed8;
+      --color-accent-active: #1e40af;
+      --color-accent-subtle: #eff4ff;
+      --color-accent-border: #c7d8fe;
+
+      /* Secondary accent — Slate */
+      --color-secondary: #334155;
+      --color-secondary-hover: #1e293b;
+      --color-secondary-subtle: #f1f5f9;
+
+      /* Status colors */
+      --color-success: #16a34a;
+      --color-success-subtle: #ecfdf5;
+      --color-success-border: #bbf7d0;
+      --color-warning: #d97706;
+      --color-warning-subtle: #fffbeb;
+      --color-warning-border: #fde68a;
+      --color-error: #dc2626;
+      --color-error-subtle: #fef2f2;
+      --color-error-border: #fecaca;
+      --color-info: #0ea5e9;
+      --color-info-subtle: #f0f9ff;
+      --color-info-border: #bae6fd;
+
+      /* Borders */
+      --color-border: #e2e8f0;
+      --color-border-strong: #cbd5e1;
+      --color-border-focus: #2563eb;
+
+      /* === TYPOGRAPHY === */
+      --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      --font-mono: 'JetBrains Mono', 'SF Mono', Consolas, monospace;
+
+      /* Font sizes */
+      --text-xs: 0.75rem;    /* 12px */
+      --text-sm: 0.8125rem;  /* 13px */
+      --text-base: 0.875rem; /* 14px — базовый размер для плотных интерфейсов */
+      --text-md: 1rem;       /* 16px */
+      --text-lg: 1.125rem;   /* 18px */
+      --text-xl: 1.25rem;    /* 20px */
+      --text-2xl: 1.5rem;    /* 24px */
+      --text-3xl: 1.875rem;  /* 30px */
+      --text-4xl: 2.25rem;   /* 36px */
+      --text-5xl: 3rem;      /* 48px */
+
+      /* Line heights */
+      --leading-tight: 1.2;
+      --leading-snug: 1.4;
+      --leading-normal: 1.5;
+      --leading-relaxed: 1.65;
+
+      /* === SPACING === */
+      --space-1: 0.25rem;
+      --space-2: 0.5rem;
+      --space-3: 0.75rem;
+      --space-4: 1rem;
+      --space-5: 1.25rem;
+      --space-6: 1.5rem;
+      --space-8: 2rem;
+      --space-10: 2.5rem;
+      --space-12: 3rem;
+      --space-16: 4rem;
+      --space-20: 5rem;
+
+      /* === BORDERS === */
+      --radius-xs: 4px;
+      --radius-sm: 6px;
+      --radius-md: 8px;
+      --radius-lg: 12px;
+      --radius-full: 9999px;
+      --border-width: 1px;
+
+      /* === SHADOWS === */
+      --shadow-xs: 0 1px 2px rgba(15, 23, 42, 0.04);
+      --shadow-sm: 0 1px 3px rgba(15, 23, 42, 0.06), 0 1px 2px rgba(15, 23, 42, 0.04);
+      --shadow-md: 0 4px 12px rgba(15, 23, 42, 0.06), 0 2px 4px rgba(15, 23, 42, 0.04);
+      --shadow-lg: 0 12px 24px rgba(15, 23, 42, 0.08), 0 4px 8px rgba(15, 23, 42, 0.04);
+      --shadow-focus: 0 0 0 3px rgba(37, 99, 235, 0.18);
+      --shadow-focus-error: 0 0 0 3px rgba(220, 38, 38, 0.18);
+
+      /* === TRANSITIONS === */
+      --transition-fast: 120ms ease;
+      --transition-normal: 200ms ease;
+      --transition-slow: 320ms ease;
+    }
+
+    /* ========================================
+       BASE STYLES
+       ======================================== */
+
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      font-size: 16px;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    body {
+      font-family: var(--font-sans);
+      font-size: var(--text-base);
+      line-height: var(--leading-normal);
+      color: var(--color-text-primary);
+      background-color: var(--color-bg-canvas);
+      min-height: 100vh;
+    }
+
+    ::selection {
+      background: var(--color-accent-subtle);
+      color: var(--color-accent-active);
+    }
+
+    /* ========================================
+       TYPOGRAPHY STYLES
+       ======================================== */
+
+    h1, h2, h3, h4, h5, h6,
+    .heading {
+      font-family: var(--font-sans);
+      font-weight: 600;
+      line-height: var(--leading-tight);
+      color: var(--color-text-primary);
+      letter-spacing: -0.015em;
+    }
+
+    h1, .text-5xl { font-size: var(--text-5xl); font-weight: 700; letter-spacing: -0.025em; }
+    h2, .text-4xl { font-size: var(--text-4xl); font-weight: 700; letter-spacing: -0.02em; }
+    h3, .text-3xl { font-size: var(--text-3xl); }
+    h4, .text-2xl { font-size: var(--text-2xl); }
+    h5, .text-xl  { font-size: var(--text-xl); }
+    h6, .text-lg  { font-size: var(--text-lg); }
+
+    p, .text-base {
+      font-size: var(--text-base);
+      line-height: var(--leading-relaxed);
+      color: var(--color-text-secondary);
+    }
+
+    .text-md { font-size: var(--text-md); }
+    .text-sm { font-size: var(--text-sm); }
+    .text-xs { font-size: var(--text-xs); }
+
+    .text-accent  { color: var(--color-accent); }
+    .text-muted   { color: var(--color-text-muted); }
+    .text-success { color: var(--color-success); }
+    .text-warning { color: var(--color-warning); }
+    .text-error   { color: var(--color-error); }
+
+    code, kbd, .mono {
+      font-family: var(--font-mono);
+      font-size: 0.92em;
+    }
+
+    code:not(pre code) {
+      background: var(--color-bg-subtle);
+      padding: 2px var(--space-2);
+      border-radius: var(--radius-xs);
+      border: var(--border-width) solid var(--color-border);
+      color: var(--color-text-primary);
+      font-size: 0.85em;
+    }
+
+    a {
+      color: var(--color-accent);
+      text-decoration: none;
+      transition: color var(--transition-fast);
+    }
+
+    a:hover {
+      color: var(--color-accent-hover);
+      text-decoration: underline;
+      text-underline-offset: 2px;
+    }
+
+    /* ========================================
+       COMPONENT: BUTTONS
+       ======================================== */
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: var(--space-2);
+      font-family: var(--font-sans);
+      font-size: var(--text-base);
+      font-weight: 500;
+      padding: var(--space-2) var(--space-4);
+      border: var(--border-width) solid transparent;
+      border-radius: var(--radius-md);
+      cursor: pointer;
+      transition: all var(--transition-fast);
+      white-space: nowrap;
+      line-height: 1.4;
+    }
+
+    .btn:focus-visible {
+      outline: none;
+      box-shadow: var(--shadow-focus);
+    }
+
+    .btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    .btn-primary {
+      background: var(--color-accent);
+      color: var(--color-text-inverse);
+      border-color: var(--color-accent);
+      box-shadow: var(--shadow-xs);
+    }
+
+    .btn-primary:hover:not(:disabled) {
+      background: var(--color-accent-hover);
+      border-color: var(--color-accent-hover);
+    }
+
+    .btn-primary:active:not(:disabled) {
+      background: var(--color-accent-active);
+      border-color: var(--color-accent-active);
+    }
+
+    .btn-secondary {
+      background: var(--color-bg-surface);
+      color: var(--color-text-primary);
+      border-color: var(--color-border-strong);
+      box-shadow: var(--shadow-xs);
+    }
+
+    .btn-secondary:hover:not(:disabled) {
+      background: var(--color-bg-hover);
+      border-color: var(--color-border-strong);
+    }
+
+    .btn-ghost {
+      background: transparent;
+      color: var(--color-text-secondary);
+      border-color: transparent;
+    }
+
+    .btn-ghost:hover:not(:disabled) {
+      background: var(--color-bg-hover);
+      color: var(--color-text-primary);
+    }
+
+    .btn-danger {
+      background: var(--color-error);
+      color: var(--color-text-inverse);
+      border-color: var(--color-error);
+      box-shadow: var(--shadow-xs);
+    }
+
+    .btn-danger:hover:not(:disabled) {
+      background: #b91c1c;
+      border-color: #b91c1c;
+    }
+
+    .btn-sm {
+      padding: 4px var(--space-3);
+      font-size: var(--text-sm);
+      border-radius: var(--radius-sm);
+    }
+
+    .btn-lg {
+      padding: var(--space-3) var(--space-6);
+      font-size: var(--text-md);
+    }
+
+    /* ========================================
+       COMPONENT: INPUTS
+       ======================================== */
+
+    .input {
+      width: 100%;
+      font-family: var(--font-sans);
+      font-size: var(--text-base);
+      padding: var(--space-2) var(--space-3);
+      background: var(--color-bg-surface);
+      border: var(--border-width) solid var(--color-border-strong);
+      border-radius: var(--radius-md);
+      color: var(--color-text-primary);
+      transition: all var(--transition-fast);
+      line-height: 1.5;
+    }
+
+    .input::placeholder {
+      color: var(--color-text-placeholder);
+    }
+
+    .input:hover:not(:disabled):not(:focus) {
+      border-color: #94a3b8;
+    }
+
+    .input:focus {
+      outline: none;
+      border-color: var(--color-border-focus);
+      box-shadow: var(--shadow-focus);
+    }
+
+    .input:disabled {
+      background: var(--color-bg-subtle);
+      cursor: not-allowed;
+      color: var(--color-text-muted);
+    }
+
+    .input-error {
+      border-color: var(--color-error);
+    }
+
+    .input-error:focus {
+      box-shadow: var(--shadow-focus-error);
+    }
+
+    .label {
+      display: block;
+      font-family: var(--font-sans);
+      font-size: var(--text-sm);
+      font-weight: 500;
+      color: var(--color-text-primary);
+      margin-bottom: var(--space-2);
+    }
+
+    .label-required::after {
+      content: " *";
+      color: var(--color-error);
+    }
+
+    .help-text {
+      font-size: var(--text-xs);
+      color: var(--color-text-muted);
+      margin-top: var(--space-2);
+    }
+
+    .help-text.error {
+      color: var(--color-error);
+    }
+
+    /* ========================================
+       COMPONENT: CARDS
+       ======================================== */
+
+    .card {
+      background: var(--color-bg-surface);
+      border: var(--border-width) solid var(--color-border);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      box-shadow: var(--shadow-xs);
+    }
+
+    .card-body {
+      padding: var(--space-6);
+    }
+
+    .card-header {
+      padding: var(--space-4) var(--space-6);
+      border-bottom: var(--border-width) solid var(--color-border);
+      background: var(--color-bg-surface);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .card-footer {
+      padding: var(--space-4) var(--space-6);
+      border-top: var(--border-width) solid var(--color-border);
+      background: var(--color-bg-subtle);
+    }
+
+    .card-interactive {
+      cursor: pointer;
+      transition: all var(--transition-normal);
+    }
+
+    .card-interactive:hover {
+      border-color: var(--color-border-strong);
+      box-shadow: var(--shadow-md);
+      transform: translateY(-1px);
+    }
+
+    .card-accent {
+      border-top: 3px solid var(--color-accent);
+    }
+
+    /* ========================================
+       COMPONENT: BADGES & TAGS
+       ======================================== */
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-1);
+      font-family: var(--font-sans);
+      font-size: var(--text-xs);
+      font-weight: 500;
+      padding: 2px var(--space-2);
+      border-radius: var(--radius-sm);
+      border: var(--border-width) solid transparent;
+      line-height: 1.4;
+    }
+
+    .badge-default {
+      background: var(--color-bg-subtle);
+      color: var(--color-text-secondary);
+      border-color: var(--color-border);
+    }
+
+    .badge-accent {
+      background: var(--color-accent-subtle);
+      color: var(--color-accent-active);
+      border-color: var(--color-accent-border);
+    }
+
+    .badge-success {
+      background: var(--color-success-subtle);
+      color: var(--color-success);
+      border-color: var(--color-success-border);
+    }
+
+    .badge-warning {
+      background: var(--color-warning-subtle);
+      color: var(--color-warning);
+      border-color: var(--color-warning-border);
+    }
+
+    .badge-error {
+      background: var(--color-error-subtle);
+      color: var(--color-error);
+      border-color: var(--color-error-border);
+    }
+
+    .badge-info {
+      background: var(--color-info-subtle);
+      color: var(--color-info);
+      border-color: var(--color-info-border);
+    }
+
+    .badge-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: currentColor;
+      display: inline-block;
+    }
+
+    /* ========================================
+       COMPONENT: PROGRESS BAR
+       ======================================== */
+
+    .progress {
+      height: 6px;
+      background: var(--color-bg-muted);
+      border-radius: var(--radius-full);
+      overflow: hidden;
+    }
+
+    .progress-bar {
+      height: 100%;
+      background: var(--color-accent);
+      border-radius: var(--radius-full);
+      transition: width var(--transition-slow);
+    }
+
+    .progress-bar.success { background: var(--color-success); }
+    .progress-bar.warning { background: var(--color-warning); }
+    .progress-bar.error   { background: var(--color-error); }
+
+    /* ========================================
+       COMPONENT: CODE BLOCKS
+       ======================================== */
+
+    pre {
+      background: var(--color-bg-subtle);
+      border: var(--border-width) solid var(--color-border);
+      border-radius: var(--radius-md);
+      padding: var(--space-4) var(--space-5);
+      overflow-x: auto;
+      font-family: var(--font-mono);
+      font-size: var(--text-sm);
+      line-height: var(--leading-relaxed);
+      color: var(--color-text-primary);
+    }
+
+    pre code {
+      background: none;
+      padding: 0;
+      border: none;
+      color: var(--color-text-primary);
+      font-size: inherit;
+    }
+
+    .line-number {
+      color: var(--color-text-muted);
+      user-select: none;
+      padding-right: var(--space-3);
+      margin-right: var(--space-3);
+      border-right: var(--border-width) solid var(--color-border);
+      display: inline-block;
+    }
+
+    .code-keyword  { color: #7c3aed; }
+    .code-string   { color: var(--color-success); }
+    .code-function { color: var(--color-accent); }
+
+    /* ========================================
+       COMPONENT: NAVIGATION
+       ======================================== */
+
+    .nav {
+      display: inline-flex;
+      align-items: center;
+      gap: 2px;
+      padding: var(--space-1);
+      background: var(--color-bg-subtle);
+      border: var(--border-width) solid var(--color-border);
+      border-radius: var(--radius-md);
+    }
+
+    .nav-item {
+      font-family: var(--font-sans);
+      font-size: var(--text-sm);
+      font-weight: 500;
+      padding: var(--space-2) var(--space-4);
+      color: var(--color-text-secondary);
+      border-radius: var(--radius-sm);
+      transition: all var(--transition-fast);
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .nav-item:hover {
+      color: var(--color-text-primary);
+      background: var(--color-bg-hover);
+    }
+
+    .nav-item.active {
+      color: var(--color-text-primary);
+      background: var(--color-bg-surface);
+      box-shadow: var(--shadow-xs);
+    }
+
+    /* Tabs (underline style) */
+    .tabs {
+      display: flex;
+      align-items: center;
+      gap: var(--space-6);
+      border-bottom: var(--border-width) solid var(--color-border);
+    }
+
+    .tab {
+      font-size: var(--text-base);
+      font-weight: 500;
+      color: var(--color-text-muted);
+      padding: var(--space-3) 0;
+      cursor: pointer;
+      border-bottom: 2px solid transparent;
+      transition: all var(--transition-fast);
+      margin-bottom: -1px;
+    }
+
+    .tab:hover { color: var(--color-text-primary); }
+
+    .tab.active {
+      color: var(--color-accent);
+      border-bottom-color: var(--color-accent);
+    }
+
+    /* ========================================
+       COMPONENT: AVATAR
+       ======================================== */
+
+    .avatar {
+      width: 36px;
+      height: 36px;
+      border-radius: var(--radius-full);
+      background: var(--color-accent-subtle);
+      color: var(--color-accent-active);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-sans);
+      font-weight: 600;
+      font-size: var(--text-sm);
+      text-transform: uppercase;
+      border: var(--border-width) solid var(--color-accent-border);
+    }
+
+    .avatar-sm { width: 28px; height: 28px; font-size: var(--text-xs); }
+    .avatar-lg { width: 48px; height: 48px; font-size: var(--text-md); }
+
+    /* ========================================
+       COMPONENT: STAT
+       ======================================== */
+
+    .stat {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-2);
+    }
+
+    .stat-label {
+      font-size: var(--text-sm);
+      font-weight: 500;
+      color: var(--color-text-muted);
+    }
+
+    .stat-value {
+      font-family: var(--font-sans);
+      font-size: var(--text-3xl);
+      font-weight: 600;
+      line-height: 1.1;
+      color: var(--color-text-primary);
+      letter-spacing: -0.02em;
+    }
+
+    .stat-delta {
+      font-size: var(--text-xs);
+      font-weight: 500;
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-1);
+    }
+
+    .stat-delta.up   { color: var(--color-success); }
+    .stat-delta.down { color: var(--color-error); }
+
+    /* ========================================
+       COMPONENT: TABLE
+       ======================================== */
+
+    .table-wrap {
+      background: var(--color-bg-surface);
+      border: var(--border-width) solid var(--color-border);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      box-shadow: var(--shadow-xs);
+    }
+
+    .table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: var(--text-base);
+    }
+
+    .table thead th {
+      background: var(--color-bg-subtle);
+      padding: var(--space-3) var(--space-4);
+      font-size: var(--text-xs);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: var(--color-text-muted);
+      text-align: left;
+      border-bottom: var(--border-width) solid var(--color-border);
+    }
+
+    .table tbody td {
+      padding: var(--space-3) var(--space-4);
+      border-bottom: var(--border-width) solid var(--color-border);
+      color: var(--color-text-primary);
+      vertical-align: middle;
+    }
+
+    .table tbody tr:last-child td {
+      border-bottom: none;
+    }
+
+    .table tbody tr:hover {
+      background: var(--color-bg-subtle);
+    }
+
+    /* ========================================
+       COMPONENT: USER CARD
+       ======================================== */
+
+    .user-card {
+      display: flex;
+      align-items: flex-start;
+      gap: var(--space-4);
+      padding: var(--space-5);
+      background: var(--color-bg-surface);
+      border: var(--border-width) solid var(--color-border);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-xs);
+    }
+
+    .user-info { flex: 1; min-width: 0; }
+
+    .user-name {
+      font-weight: 600;
+      color: var(--color-text-primary);
+      margin-bottom: 2px;
+    }
+
+    .user-meta {
+      font-size: var(--text-xs);
+      color: var(--color-text-muted);
+    }
+
+    .user-stats {
+      display: flex;
+      gap: var(--space-6);
+      margin-top: var(--space-4);
+      padding-top: var(--space-4);
+      border-top: var(--border-width) solid var(--color-border);
+    }
+
+    .user-stat-value {
+      font-size: var(--text-lg);
+      font-weight: 600;
+      color: var(--color-text-primary);
+    }
+
+    .user-stat-label {
+      font-size: var(--text-xs);
+      color: var(--color-text-muted);
+    }
+
+    /* ========================================
+       COMPONENT: EMPTY STATE
+       ======================================== */
+
+    .empty-state {
+      text-align: center;
+      padding: var(--space-16) var(--space-8);
+    }
+
+    .empty-state-icon {
+      width: 56px;
+      height: 56px;
+      margin: 0 auto var(--space-4);
+      border-radius: var(--radius-full);
+      background: var(--color-accent-subtle);
+      color: var(--color-accent);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.75rem;
+    }
+
+    .empty-state-title {
+      font-size: var(--text-lg);
+      font-weight: 600;
+      margin-bottom: var(--space-2);
+      color: var(--color-text-primary);
+    }
+
+    .empty-state-description {
+      color: var(--color-text-muted);
+      max-width: 360px;
+      margin: 0 auto;
+    }
+
+    /* ========================================
+       COMPONENT: ALERT
+       ======================================== */
+
+    .alert {
+      display: flex;
+      gap: var(--space-3);
+      padding: var(--space-3) var(--space-4);
+      border-radius: var(--radius-md);
+      border: var(--border-width) solid transparent;
+      font-size: var(--text-base);
+    }
+
+    .alert-info {
+      background: var(--color-info-subtle);
+      border-color: var(--color-info-border);
+      color: #0c4a6e;
+    }
+
+    .alert-success {
+      background: var(--color-success-subtle);
+      border-color: var(--color-success-border);
+      color: #064e3b;
+    }
+
+    .alert-warning {
+      background: var(--color-warning-subtle);
+      border-color: var(--color-warning-border);
+      color: #7c2d12;
+    }
+
+    .alert-error {
+      background: var(--color-error-subtle);
+      border-color: var(--color-error-border);
+      color: #7f1d1d;
+    }
+
+    .alert-icon {
+      flex-shrink: 0;
+      width: 20px;
+      height: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+    }
+
+    /* ========================================
+       COMPONENT: PIPELINE STAGE
+       ======================================== */
+
+    .pipeline {
+      display: flex;
+      gap: var(--space-2);
+      flex-wrap: wrap;
+    }
+
+    .stage {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-2);
+      padding: var(--space-2) var(--space-4);
+      background: var(--color-bg-surface);
+      border: var(--border-width) solid var(--color-border);
+      border-radius: var(--radius-md);
+      font-size: var(--text-sm);
+      font-weight: 500;
+      color: var(--color-text-secondary);
+    }
+
+    .stage.active {
+      background: var(--color-accent-subtle);
+      border-color: var(--color-accent-border);
+      color: var(--color-accent-active);
+    }
+
+    .stage.done {
+      background: var(--color-success-subtle);
+      border-color: var(--color-success-border);
+      color: var(--color-success);
+    }
+
+    /* ========================================
+       LAYOUT UTILITIES
+       ======================================== */
+
+    .container {
+      width: 100%;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 var(--space-6);
+    }
+
+    .grid { display: grid; gap: var(--space-4); }
+    .grid-cols-2 { grid-template-columns: repeat(2, 1fr); }
+    .grid-cols-3 { grid-template-columns: repeat(3, 1fr); }
+    .grid-cols-4 { grid-template-columns: repeat(4, 1fr); }
+
+    @media (max-width: 768px) {
+      .grid-cols-2, .grid-cols-3, .grid-cols-4 {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .flex { display: flex; }
+    .flex-col { flex-direction: column; }
+    .flex-wrap { flex-wrap: wrap; }
+    .items-center { align-items: center; }
+    .items-start { align-items: flex-start; }
+    .justify-between { justify-content: space-between; }
+    .justify-center { justify-content: center; }
+    .gap-1 { gap: var(--space-1); }
+    .gap-2 { gap: var(--space-2); }
+    .gap-3 { gap: var(--space-3); }
+    .gap-4 { gap: var(--space-4); }
+    .gap-6 { gap: var(--space-6); }
+    .gap-8 { gap: var(--space-8); }
+
+    .p-4 { padding: var(--space-4); }
+    .p-6 { padding: var(--space-6); }
+    .py-8 { padding-top: var(--space-8); padding-bottom: var(--space-8); }
+    .py-12 { padding-top: var(--space-12); padding-bottom: var(--space-12); }
+    .mb-2 { margin-bottom: var(--space-2); }
+    .mb-4 { margin-bottom: var(--space-4); }
+    .mb-6 { margin-bottom: var(--space-6); }
+    .mb-8 { margin-bottom: var(--space-8); }
+    .mt-4 { margin-top: var(--space-4); }
+    .mt-6 { margin-top: var(--space-6); }
+
+    /* ========================================
+       BRANDBOOK DEMO STYLES
+       ======================================== */
+
+    .demo-section {
+      padding: var(--space-12) 0;
+      border-bottom: var(--border-width) solid var(--color-border);
+    }
+
+    .demo-section:last-child { border-bottom: none; }
+
+    .demo-title {
+      font-size: var(--text-xl);
+      font-weight: 600;
+      margin-bottom: var(--space-2);
+      color: var(--color-text-primary);
+    }
+
+    .demo-subtitle {
+      font-size: var(--text-sm);
+      color: var(--color-text-muted);
+      margin-bottom: var(--space-8);
+    }
+
+    .demo-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-6);
+    }
+
+    .demo-item {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-2);
+    }
+
+    .demo-label {
+      font-size: var(--text-xs);
+      font-weight: 500;
+      color: var(--color-text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    .color-swatch {
+      width: 96px;
+      height: 72px;
+      border-radius: var(--radius-md);
+      border: var(--border-width) solid var(--color-border);
+      box-shadow: var(--shadow-xs);
+    }
+
+    /* Top brand bar */
+    .brand-header {
+      padding: var(--space-12) 0 var(--space-8);
+      border-bottom: var(--border-width) solid var(--color-border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-6);
+      flex-wrap: wrap;
+    }
+
+    .logo {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-3);
+    }
+
+    .logo-mark {
+      width: 40px;
+      height: 40px;
+      border-radius: var(--radius-md);
+      background: var(--color-accent);
+      color: #fff;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: var(--text-lg);
+      letter-spacing: -0.02em;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .logo-text {
+      font-size: var(--text-xl);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      color: var(--color-text-primary);
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+
+    <!-- Header -->
+    <header class="brand-header">
+      <div class="logo">
+        <span class="logo-mark">A</span>
+        <div class="flex flex-col gap-1">
+          <span class="logo-text">APM ГлоуБайт</span>
+          <span class="text-xs text-muted">Дизайн APM-системы</span>
+        </div>
+      </div>
+      <div class="flex items-center gap-3">
+        <span class="badge badge-default"><span class="badge-dot" style="color: var(--color-success);"></span>v1.0 stable</span>
+        <span class="text-sm text-muted">Design System Brandbook</span>
+      </div>
+    </header>
+
+    <!-- Intro -->
+    <section class="demo-section">
+      <h1 class="mb-4" style="font-size: var(--text-4xl);">Дизайн-система <span style="color: var(--color-accent);">APM ГлоуБайт</span></h1>
+      <p style="max-width: 680px; font-size: var(--text-md);">
+        Единая визуальная и компонентная база интерфейса APM-системы ГлоуБайт. Делает продукт спокойным,
+        читаемым и предсказуемым — без визуального шума, с акцентом на данные, статусы и действия пользователя.
+      </p>
+    </section>
+
+    <!-- Colors Section -->
+    <section class="demo-section">
+      <h2 class="demo-title">Цвета</h2>
+      <p class="demo-subtitle">Светлая палитра. Нейтральные поверхности, корпоративный синий и семантические статусы.</p>
+
+      <h4 class="mb-4" style="font-size: var(--text-md);">Поверхности</h4>
+      <div class="demo-grid mb-8">
+        <div class="demo-item">
+          <div class="color-swatch" style="background: var(--color-bg-canvas);"></div>
+          <span class="demo-label">Canvas</span>
+          <code class="text-xs">#f6f8fb</code>
+        </div>
+        <div class="demo-item">
+          <div class="color-swatch" style="background: var(--color-bg-surface);"></div>
+          <span class="demo-label">Surface</span>
+          <code class="text-xs">#ffffff</code>
+        </div>
+        <div class="demo-item">
+          <div class="color-swatch" style="background: var(--color-bg-subtle);"></div>
+          <span class="demo-label">Subtle</span>
+          <code class="text-xs">#f1f4f8</code>
+        </div>
+        <div class="demo-item">
+          <div class="color-swatch" style="background: var(--color-bg-muted);"></div>
+          <span class="demo-label">Muted</span>
+          <code class="text-xs">#e9edf3</code>
+        </div>
+      </div>
+
+      <h4 class="mb-4" style="font-size: var(--text-md);">Бренд и акценты</h4>
+      <div class="demo-grid mb-8">
+        <div class="demo-item">
+          <div class="color-swatch" style="background: var(--color-accent);"></div>
+          <span class="demo-label">Accent</span>
+          <code class="text-xs">#2563eb</code>
+        </div>
+        <div class="demo-item">
+          <div class="color-swatch" style="background: var(--color-accent-hover);"></div>
+          <span class="demo-label">Accent hover</span>
+          <code class="text-xs">#1d4ed8</code>
+        </div>
+        <div class="demo-item">
+          <div class="color-swatch" style="background: var(--color-accent-subtle); border-color: var(--color-accent-border);"></div>
+          <span class="demo-label">Accent subtle</span>
+          <code class="text-xs">#eff4ff</code>
+        </div>
+        <div class="demo-item">
+          <div class="color-swatch" style="background: var(--color-secondary);"></div>
+          <span class="demo-label">Slate</span>
+          <code class="text-xs">#334155</code>
+        </div>
+      </div>
+
+      <h4 class="mb-4" style="font-size: var(--text-md);">Статусы</h4>
+      <div class="demo-grid">
+        <div class="demo-item">
+          <div class="color-swatch" style="background: var(--color-success);"></div>
+          <span class="demo-label">Success</span>
+          <code class="text-xs">#16a34a</code>
+        </div>
+        <div class="demo-item">
+          <div class="color-swatch" style="background: var(--color-warning);"></div>
+          <span class="demo-label">Warning</span>
+          <code class="text-xs">#d97706</code>
+        </div>
+        <div class="demo-item">
+          <div class="color-swatch" style="background: var(--color-error);"></div>
+          <span class="demo-label">Error</span>
+          <code class="text-xs">#dc2626</code>
+        </div>
+        <div class="demo-item">
+          <div class="color-swatch" style="background: var(--color-info);"></div>
+          <span class="demo-label">Info</span>
+          <code class="text-xs">#0ea5e9</code>
+        </div>
+      </div>
+    </section>
+
+    <!-- Typography Section -->
+    <section class="demo-section">
+      <h2 class="demo-title">Типографика</h2>
+      <p class="demo-subtitle">Основной шрифт — Inter. Технический — JetBrains Mono. Базовый размер тела — 14px.</p>
+
+      <div class="mb-8">
+        <span class="demo-label mb-4" style="display: block;">Заголовки</span>
+        <h1 class="mb-2">Heading 1 — 48px</h1>
+        <h2 class="mb-2">Heading 2 — 36px</h2>
+        <h3 class="mb-2">Heading 3 — 30px</h3>
+        <h4 class="mb-2">Heading 4 — 24px</h4>
+        <h5 class="mb-2">Heading 5 — 20px</h5>
+        <h6>Heading 6 — 18px</h6>
+      </div>
+
+      <div class="mb-8">
+        <span class="demo-label mb-4" style="display: block;">Основной текст</span>
+        <p class="mb-4" style="max-width: 640px;">
+          Это основной текст интерфейса. Используется в карточках сделок, описаниях задач,
+          комментариях и заметках менеджера. Размер 14px обеспечивает плотность данных без потери читаемости.
+        </p>
+        <p class="text-sm text-muted">Вторичный текст — мета-информация, подписи, подсказки.</p>
+      </div>
+
+      <div>
+        <span class="demo-label mb-4" style="display: block;">Моноширинный шрифт</span>
+        <p class="mb-4">Идентификаторы и токены: <code>order_id = "ORD-2842"</code></p>
+        <pre><code><span class="line-number">1</span><span class="code-keyword">async function</span> <span class="code-function">fetchDeal</span>(id) {
+<span class="line-number">2</span>  <span class="code-keyword">const</span> deal = <span class="code-keyword">await</span> api.<span class="code-function">get</span>(<span class="code-string">`/v1/deals/${id}`</span>);
+<span class="line-number">3</span>  <span class="code-keyword">return</span> deal;
+<span class="line-number">4</span>}</code></pre>
+      </div>
+    </section>
+
+    <!-- Buttons Section -->
+    <section class="demo-section">
+      <h2 class="demo-title">Кнопки</h2>
+      <p class="demo-subtitle">Главное действие — primary. Вторичное — secondary. Деструктивное — danger.</p>
+
+      <div class="demo-grid mb-8">
+        <div class="demo-item">
+          <span class="demo-label">Primary</span>
+          <button class="btn btn-primary">Создать сделку</button>
+        </div>
+        <div class="demo-item">
+          <span class="demo-label">Secondary</span>
+          <button class="btn btn-secondary">Экспортировать</button>
+        </div>
+        <div class="demo-item">
+          <span class="demo-label">Ghost</span>
+          <button class="btn btn-ghost">Отмена</button>
+        </div>
+        <div class="demo-item">
+          <span class="demo-label">Danger</span>
+          <button class="btn btn-danger">Удалить</button>
+        </div>
+        <div class="demo-item">
+          <span class="demo-label">Disabled</span>
+          <button class="btn btn-primary" disabled>Сохранить</button>
+        </div>
+      </div>
+
+      <div class="demo-grid">
+        <div class="demo-item">
+          <span class="demo-label">Small</span>
+          <button class="btn btn-primary btn-sm">Добавить</button>
+        </div>
+        <div class="demo-item">
+          <span class="demo-label">Default</span>
+          <button class="btn btn-primary">Добавить</button>
+        </div>
+        <div class="demo-item">
+          <span class="demo-label">Large</span>
+          <button class="btn btn-primary btn-lg">Добавить контакт</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Form Elements Section -->
+    <section class="demo-section">
+      <h2 class="demo-title">Формы</h2>
+      <p class="demo-subtitle">Поля ввода, лейблы и состояния ошибок для форм системы.</p>
+
+      <div class="grid grid-cols-2 gap-8" style="max-width: 720px;">
+        <div>
+          <label class="label label-required">Email клиента</label>
+          <input type="email" class="input" placeholder="client@company.com">
+          <p class="help-text">Используется для уведомлений и приглашений</p>
+        </div>
+        <div>
+          <label class="label">Телефон</label>
+          <input type="text" class="input" value="+7 (999) 000-00-00">
+          <p class="help-text">Формат: +7 (XXX) XXX-XX-XX</p>
+        </div>
+        <div>
+          <label class="label">Компания</label>
+          <input type="text" class="input" placeholder="ООО «Ромашка»" disabled>
+          <p class="help-text">Заполнится автоматически после привязки</p>
+        </div>
+        <div>
+          <label class="label label-required">ИНН</label>
+          <input type="text" class="input input-error" value="123">
+          <p class="help-text error">ИНН должен содержать 10 или 12 цифр</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Badges Section -->
+    <section class="demo-section">
+      <h2 class="demo-title">Бейджи и статусы</h2>
+      <p class="demo-subtitle">Используются для статусов сделок, приоритетов и категорий.</p>
+
+      <div class="demo-grid mb-8">
+        <div class="demo-item">
+          <span class="demo-label">Default</span>
+          <span class="badge badge-default">Черновик</span>
+        </div>
+        <div class="demo-item">
+          <span class="demo-label">Accent</span>
+          <span class="badge badge-accent">В работе</span>
+        </div>
+        <div class="demo-item">
+          <span class="demo-label">Success</span>
+          <span class="badge badge-success"><span class="badge-dot"></span>Оплачено</span>
+        </div>
+        <div class="demo-item">
+          <span class="demo-label">Warning</span>
+          <span class="badge badge-warning"><span class="badge-dot"></span>Требует внимания</span>
+        </div>
+        <div class="demo-item">
+          <span class="demo-label">Error</span>
+          <span class="badge badge-error"><span class="badge-dot"></span>Просрочено</span>
+        </div>
+        <div class="demo-item">
+          <span class="demo-label">Info</span>
+          <span class="badge badge-info">Новый</span>
+        </div>
+      </div>
+
+      <div>
+        <span class="demo-label mb-4" style="display: block;">Этапы воронки продаж</span>
+        <div class="pipeline">
+          <span class="stage done">Контакт</span>
+          <span class="stage done">Квалификация</span>
+          <span class="stage active">Коммерческое предложение</span>
+          <span class="stage">Переговоры</span>
+          <span class="stage">Закрыто</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Cards Section -->
+    <section class="demo-section">
+      <h2 class="demo-title">Карточки</h2>
+      <p class="demo-subtitle">Контейнеры для группировки данных и действий в интерфейсе.</p>
+
+      <div class="grid grid-cols-3 gap-6">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="mb-2" style="font-size: var(--text-md);">Базовая карточка</h5>
+            <p class="text-sm text-muted">Стандартный контейнер. Используется для группировки полей сделки или контакта.</p>
+          </div>
+        </div>
+
+        <div class="card card-accent">
+          <div class="card-body">
+            <h5 class="mb-2" style="font-size: var(--text-md);">Карточка с акцентом</h5>
+            <p class="text-sm text-muted">Выделяет важный блок: новая задача, активный фильтр, фокусная сделка.</p>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <span class="text-sm" style="font-weight: 600;">Сделка #ORD-2842</span>
+            <span class="badge badge-accent">В работе</span>
+          </div>
+          <div class="card-body">
+            <h5 class="mb-2" style="font-size: var(--text-md);">Поставка партии №14</h5>
+            <p class="text-sm text-muted">Клиент: ООО «Ромашка»<br>Сумма: 1 240 000 ₽</p>
+          </div>
+          <div class="card-footer">
+            <div class="flex gap-2">
+              <button class="btn btn-primary btn-sm">Открыть</button>
+              <button class="btn btn-ghost btn-sm">Действия</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Table Section -->
+    <section class="demo-section">
+      <h2 class="demo-title">Таблица данных</h2>
+      <p class="demo-subtitle">Основной способ отображения списков сделок, контактов и задач.</p>
+
+      <div class="table-wrap">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Сделка</th>
+              <th>Клиент</th>
+              <th>Менеджер</th>
+              <th>Сумма</th>
+              <th>Статус</th>
+              <th>Обновлено</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>ORD-2842</strong><br><span class="text-xs text-muted">Поставка партии №14</span></td>
+              <td>ООО «Ромашка»</td>
+              <td>
+                <div class="flex items-center gap-2">
+                  <div class="avatar avatar-sm">АИ</div>
+                  <span>Анна Иванова</span>
+                </div>
+              </td>
+              <td>1 240 000 ₽</td>
+              <td><span class="badge badge-accent">В работе</span></td>
+              <td class="text-muted">2 ч назад</td>
+            </tr>
+            <tr>
+              <td><strong>ORD-2841</strong><br><span class="text-xs text-muted">Годовая подписка Pro</span></td>
+              <td>ИП Сидоров А.В.</td>
+              <td>
+                <div class="flex items-center gap-2">
+                  <div class="avatar avatar-sm">МК</div>
+                  <span>Михаил Котов</span>
+                </div>
+              </td>
+              <td>96 000 ₽</td>
+              <td><span class="badge badge-success"><span class="badge-dot"></span>Оплачено</span></td>
+              <td class="text-muted">вчера</td>
+            </tr>
+            <tr>
+              <td><strong>ORD-2840</strong><br><span class="text-xs text-muted">Внедрение модуля BI</span></td>
+              <td>АО «Северные сети»</td>
+              <td>
+                <div class="flex items-center gap-2">
+                  <div class="avatar avatar-sm">ЕС</div>
+                  <span>Елена Соколова</span>
+                </div>
+              </td>
+              <td>3 480 000 ₽</td>
+              <td><span class="badge badge-warning"><span class="badge-dot"></span>Требует внимания</span></td>
+              <td class="text-muted">3 дня назад</td>
+            </tr>
+            <tr>
+              <td><strong>ORD-2839</strong><br><span class="text-xs text-muted">Демо-стенд</span></td>
+              <td>ООО «ТехноПроект»</td>
+              <td>
+                <div class="flex items-center gap-2">
+                  <div class="avatar avatar-sm">АИ</div>
+                  <span>Анна Иванова</span>
+                </div>
+              </td>
+              <td>0 ₽</td>
+              <td><span class="badge badge-error"><span class="badge-dot"></span>Просрочено</span></td>
+              <td class="text-muted">5 дней назад</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="demo-section">
+      <h2 class="demo-title">Метрики</h2>
+      <p class="demo-subtitle">KPI-блоки для дашборда руководителя и панели менеджера.</p>
+
+      <div class="grid grid-cols-4 gap-4">
+        <div class="card">
+          <div class="card-body">
+            <div class="stat">
+              <span class="stat-label">Сделки в работе</span>
+              <span class="stat-value">128</span>
+              <span class="stat-delta up">↑ 12% за неделю</span>
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-body">
+            <div class="stat">
+              <span class="stat-label">Выручка месяца</span>
+              <span class="stat-value">8.4M ₽</span>
+              <span class="stat-delta up">↑ 4.6%</span>
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-body">
+            <div class="stat">
+              <span class="stat-label">Средний чек</span>
+              <span class="stat-value">312k ₽</span>
+              <span class="stat-delta down">↓ 1.8%</span>
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-body">
+            <div class="stat">
+              <span class="stat-label">Конверсия</span>
+              <span class="stat-value">23.7%</span>
+              <span class="stat-delta up">↑ 2.1 п.п.</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Navigation Section -->
+    <section class="demo-section">
+      <h2 class="demo-title">Навигация</h2>
+      <p class="demo-subtitle">Сегментированный контрол и табы для переключения вью и разделов.</p>
+
+      <div class="mb-8">
+        <span class="demo-label mb-4" style="display: block;">Segmented control</span>
+        <nav class="nav">
+          <span class="nav-item active">Список</span>
+          <span class="nav-item">Канбан</span>
+          <span class="nav-item">Календарь</span>
+          <span class="nav-item">Аналитика</span>
+        </nav>
+      </div>
+
+      <div>
+        <span class="demo-label mb-4" style="display: block;">Tabs</span>
+        <div class="tabs">
+          <span class="tab active">Обзор</span>
+          <span class="tab">Задачи</span>
+          <span class="tab">Документы</span>
+          <span class="tab">История</span>
+          <span class="tab">Комментарии</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Progress Section -->
+    <section class="demo-section">
+      <h2 class="demo-title">Прогресс</h2>
+      <p class="demo-subtitle">Выполнение плана продаж, заполнение профиля клиента, прогресс задач.</p>
+
+      <div class="flex flex-col gap-6" style="max-width: 480px;">
+        <div>
+          <div class="flex justify-between mb-2">
+            <span class="text-sm" style="font-weight: 500;">План продаж — март</span>
+            <span class="text-sm text-muted">62%</span>
+          </div>
+          <div class="progress">
+            <div class="progress-bar" style="width: 62%;"></div>
+          </div>
+        </div>
+        <div>
+          <div class="flex justify-between mb-2">
+            <span class="text-sm" style="font-weight: 500;">Заполнение профиля</span>
+            <span class="text-sm text-muted">100%</span>
+          </div>
+          <div class="progress">
+            <div class="progress-bar success" style="width: 100%;"></div>
+          </div>
+        </div>
+        <div>
+          <div class="flex justify-between mb-2">
+            <span class="text-sm" style="font-weight: 500;">Срок до дедлайна</span>
+            <span class="text-sm text-muted">87%</span>
+          </div>
+          <div class="progress">
+            <div class="progress-bar warning" style="width: 87%;"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- User Cards Section -->
+    <section class="demo-section">
+      <h2 class="demo-title">Карточки пользователей</h2>
+      <p class="demo-subtitle">Краткий профиль менеджера или клиента с ключевыми показателями.</p>
+
+      <div class="grid grid-cols-2 gap-6">
+        <div class="user-card">
+          <div class="avatar avatar-lg">АИ</div>
+          <div class="user-info">
+            <div class="user-name">Анна Иванова</div>
+            <div class="user-meta">Руководитель отдела продаж · в сети</div>
+            <div class="user-stats">
+              <div>
+                <div class="user-stat-value">42</div>
+                <div class="user-stat-label">Сделок</div>
+              </div>
+              <div>
+                <div class="user-stat-value">12.4M ₽</div>
+                <div class="user-stat-label">Оборот</div>
+              </div>
+              <div>
+                <div class="user-stat-value">94%</div>
+                <div class="user-stat-label">Конверсия</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="user-card">
+          <div class="avatar avatar-lg">МК</div>
+          <div class="user-info">
+            <div class="user-name">Михаил Котов</div>
+            <div class="user-meta">Менеджер по продажам · был 3 ч назад</div>
+            <div class="user-stats">
+              <div>
+                <div class="user-stat-value">28</div>
+                <div class="user-stat-label">Сделок</div>
+              </div>
+              <div>
+                <div class="user-stat-value">6.1M ₽</div>
+                <div class="user-stat-label">Оборот</div>
+              </div>
+              <div>
+                <div class="user-stat-value">78%</div>
+                <div class="user-stat-label">Конверсия</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Alerts Section -->
+    <section class="demo-section">
+      <h2 class="demo-title">Уведомления</h2>
+      <p class="demo-subtitle">Информационные сообщения и системные подсказки.</p>
+
+      <div class="flex flex-col gap-3" style="max-width: 720px;">
+        <div class="alert alert-info">
+          <span class="alert-icon">i</span>
+          <div>
+            <strong>Подсказка.</strong> Подключите интеграцию с почтой, чтобы автоматически создавать сделки из входящих писем.
+          </div>
+        </div>
+        <div class="alert alert-success">
+          <span class="alert-icon">✓</span>
+          <div>
+            <strong>Готово.</strong> Сделка ORD-2842 успешно перемещена на следующий этап воронки.
+          </div>
+        </div>
+        <div class="alert alert-warning">
+          <span class="alert-icon">!</span>
+          <div>
+            <strong>Внимание.</strong> У 3 клиентов в этом месяце заканчивается срок договора.
+          </div>
+        </div>
+        <div class="alert alert-error">
+          <span class="alert-icon">✕</span>
+          <div>
+            <strong>Ошибка.</strong> Не удалось загрузить документ. Проверьте подключение и повторите попытку.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Empty State Section -->
+    <section class="demo-section">
+      <h2 class="demo-title">Пустые состояния</h2>
+      <p class="demo-subtitle">Когда в таблице или списке ещё нет данных — направляем пользователя к первому действию.</p>
+
+      <div class="card">
+        <div class="empty-state">
+          <div class="empty-state-icon">+</div>
+          <h5 class="empty-state-title">Пока нет сделок</h5>
+          <p class="empty-state-description">Создайте первую сделку или импортируйте данные из таблицы, чтобы начать работу.</p>
+          <div class="flex gap-2 justify-center mt-6">
+            <button class="btn btn-primary">Создать сделку</button>
+            <button class="btn btn-secondary">Импортировать</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-12" style="border-top: var(--border-width) solid var(--color-border); margin-top: var(--space-4);">
+      <div class="flex justify-between items-center flex-wrap gap-4">
+        <div class="logo">
+          <span class="logo-mark">A</span>
+          <span class="logo-text">APM ГлоуБайт</span>
+        </div>
+        <p class="text-sm text-muted">Design System · v1.0 · Brandbook</p>
+      </div>
+    </footer>
+  </div>
+</body>
+</html>
