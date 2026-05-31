@@ -198,8 +198,14 @@ export function AssetRegistryPage() {
 
       <section className={styles.pane}>
         <header className={styles.paneHeader}>
-          <span>{t('registry.title')}</span>
-          <span className="text-xs text-muted">{filteredAssets.length}</span>
+          <span className="flex items-center gap-2">
+            <span>{t('registry.title')}</span>
+            <span className="text-xs text-muted">{filteredAssets.length}</span>
+          </span>
+          <Button size="sm" onClick={() => setModal('asset-create')}>
+            <Plus size={15} />
+            {t('registry.addAsset')}
+          </Button>
         </header>
         <div className={styles.paneBody}>
           <AssetTable
@@ -213,7 +219,29 @@ export function AssetRegistryPage() {
 
       <section className={styles.pane}>
         <header className={styles.paneHeader}>
-          {t('registry.tabs.overview')}
+          <span>{t('registry.cardTitle')}</span>
+          {selectedAsset && (
+            <span className={styles.paneActions}>
+              <Button
+                size="sm"
+                variant="ghost"
+                title={t('common.edit')}
+                aria-label={t('common.edit')}
+                onClick={() => setModal('asset-edit')}
+              >
+                <Pencil size={15} />
+              </Button>
+              <Button
+                size="sm"
+                variant="ghost"
+                title={t('common.delete')}
+                aria-label={t('common.delete')}
+                onClick={handleDeleteAsset}
+              >
+                <Trash2 size={15} />
+              </Button>
+            </span>
+          )}
         </header>
         <div className={styles.paneBody}>
           <AssetDetails
@@ -223,6 +251,52 @@ export function AssetRegistryPage() {
           />
         </div>
       </section>
+
+      <Modal
+        open={modal === 'asset-create' || modal === 'asset-edit'}
+        title={
+          modal === 'asset-edit'
+            ? t('registry.editAssetTitle')
+            : t('registry.addAssetTitle')
+        }
+        onClose={() => setModal(null)}
+        size="lg"
+      >
+        <AssetForm
+          locations={locations}
+          classifications={classifications}
+          assets={assets}
+          initial={modal === 'asset-edit' ? selectedAsset : undefined}
+          defaultLocationId={selectedLocationId}
+          onSubmit={
+            modal === 'asset-edit' ? handleUpdateAsset : handleCreateAsset
+          }
+          onCancel={() => setModal(null)}
+        />
+      </Modal>
+
+      <Modal
+        open={modal === 'location-create' || modal === 'location-edit'}
+        title={
+          modal === 'location-edit'
+            ? t('registry.editLocationTitle')
+            : t('registry.addLocationTitle')
+        }
+        onClose={() => setModal(null)}
+        size="md"
+      >
+        <LocationForm
+          locations={locations}
+          initial={modal === 'location-edit' ? selectedLocation : undefined}
+          defaultParentId={selectedLocationId}
+          onSubmit={
+            modal === 'location-edit'
+              ? handleUpdateLocation
+              : handleCreateLocation
+          }
+          onCancel={() => setModal(null)}
+        />
+      </Modal>
     </div>
   );
 }
