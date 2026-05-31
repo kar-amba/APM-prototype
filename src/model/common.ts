@@ -29,3 +29,49 @@ export const criticalityLevelSchema = z.enum([
   'critical',
 ]);
 export type CriticalityLevel = z.infer<typeof criticalityLevelSchema>;
+
+/**
+ * Семантический тон состояния/бейджа (соответствует `BadgeTone` в `shared/ui`).
+ * Используется статусными схемами для окраски состояний.
+ */
+export const statusToneSchema = z.enum([
+  'default',
+  'info',
+  'success',
+  'warning',
+  'error',
+]);
+export type StatusTone = z.infer<typeof statusToneSchema>;
+
+/** Тип значения атрибута классификации. */
+export const attributeValueTypeSchema = z.enum([
+  'number', // числовой (с единицей измерения и диапазоном)
+  'text', // строковый
+  'boolean', // да/нет
+  'enum', // выбор из списка
+]);
+export type AttributeValueType = z.infer<typeof attributeValueTypeSchema>;
+
+/**
+ * Сущности, к которым применима статусная схема (см. продукт, раздел 4 п.7).
+ */
+export const statusEntityKindSchema = z.enum([
+  'asset', // активы
+  'analysis', // анализы (критичность)
+  'strategy', // стратегии
+  'task', // мероприятия
+  'route', // маршруты
+  'round', // обходы
+]);
+export type StatusEntityKind = z.infer<typeof statusEntityKindSchema>;
+
+/** Значение замера/атрибута: число, строка или булево. */
+export const scalarValueSchema = z.union([
+  z.number(),
+  z.string(),
+  z.boolean(),
+]);
+export type ScalarValue = z.infer<typeof scalarValueSchema>;
+
+/** Тип идентификатора сущности (для читаемости сигнатур). */
+export type Id = string;
