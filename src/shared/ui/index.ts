@@ -5,3 +5,4 @@ export { Card, CardBody, CardHeader, CardFooter } from './Card';
 export { Tabs } from './Tabs';
 export type { TabItem } from './Tabs';
 export { EmptyState } from './EmptyState';
+export { Modal } from './Modal';
