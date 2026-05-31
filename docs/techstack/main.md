@@ -134,21 +134,28 @@ Library** — для тестов (по мере необходимости). CI
 
 ```
 src/
-├── model/            # типы и Zod-схемы (FunctionalLocation, Asset, common)
+├── model/            # типы и Zod-схемы по сущностям v1
+│   ├── common, functional-location, asset, classification, status-scheme,
+│   │   maintenance, rounds, criticality, reliability, catalog
+│   └── index.ts      # ре-экспорт
 ├── data/             # слой доступа к данным
-│   ├── repository.ts # интерфейс репозитория
-│   ├── in-memory/    # in-memory реализация
-│   ├── mock/         # мок-сиды демо-предприятия
-│   └── index.ts      # фабрика + singleton appRepository
+│   ├── repository.ts # интерфейс Repository<T> + AppRepository
+│   ├── datasets.ts   # единый реестр датасетов (ключ + схема + сид)
+│   ├── in-memory/    # InMemoryRepository
+│   ├── local-storage/# LocalStorageRepository (Zod при чтении)
+│   ├── dexie/        # DexieRepository (IndexedDB)
+│   ├── mock/         # тематические сиды демо-предприятия + index.ts
+│   └── index.ts      # фабрика по режиму, getAppRepository/resetAppRepository
 ├── services/         # бизнес-логика (задел, пока пусто)
-├── store/            # Zustand-сторы (uiStore: роль/UI)
+├── store/            # Zustand: uiStore (роль), dataStore (режим хранения + useRepository)
 ├── shared/
 │   ├── styles/       # tokens.css + global.css (классы брендбука)
-│   ├── ui/           # обёртки: Button, Badge, Card, Tabs, EmptyState
+│   ├── ui/           # обёртки: Button, Badge, Card, Tabs, EmptyState, Modal
 │   └── i18n/         # react-i18next + locales/ru.json
 ├── app/              # оболочка: AppShell, router, navigation, PlaceholderPage
 ├── features/         # разделы продукта
-│   ├── asset-registry/   # вертикальный срез (дерево + таблица + детали)
+│   ├── asset-registry/   # срез: дерево + таблица + детали + CRUD-формы
+│   ├── settings/         # диалог системных настроек (режим хранения, сброс)
 │   ├── dashboard/ asset-search/ strategies/ rounds/
 │   └── criticality/ status-schemes/ catalogs/   # заглушки
 └── main.tsx          # точка входа (RouterProvider)
