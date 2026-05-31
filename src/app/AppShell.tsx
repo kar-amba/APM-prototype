@@ -1,8 +1,10 @@
+import { useState } from 'react';
 import { NavLink, Outlet, useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { Search, Settings } from 'lucide-react';
 import { navSections } from './navigation';
 import { ROLES, useUiStore, type Role } from '@/store/uiStore';
+import { SettingsDialog } from '@/features/settings/SettingsDialog';
 import styles from './AppShell.module.css';
 
 export function AppShell() {
@@ -10,6 +12,7 @@ export function AppShell() {
   const location = useLocation();
   const role = useUiStore((s) => s.role);
   const setRole = useUiStore((s) => s.setRole);
+  const [settingsOpen, setSettingsOpen] = useState(false);
 
   const activeSection =
     navSections.find((s) =>
@@ -94,6 +97,7 @@ export function AppShell() {
               className={styles.iconButton}
               title={t('topbar.settings')}
               aria-label={t('topbar.settings')}
+              onClick={() => setSettingsOpen(true)}
             >
               <Settings size={18} />
             </button>
@@ -104,6 +108,11 @@ export function AppShell() {
           <Outlet />
         </main>
       </div>
+
+      <SettingsDialog
+        open={settingsOpen}
+        onClose={() => setSettingsOpen(false)}
+      />
     </div>
   );
 }
