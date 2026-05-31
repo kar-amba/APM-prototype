@@ -11,6 +11,8 @@ export const assetSchema = z.object({
   name: z.string().min(1),
   /** Класс по классификатору (напр. «Насос центробежный»). */
   classification: z.string().min(1),
+  /** Ссылка на класс в классификаторе (задел под динамические атрибуты). */
+  classificationId: z.string().optional(),
   /** Функциональное место установки. */
   functionalLocationId: z.string().min(1),
   /** Родительский актив (узел/единица), если это узел или компонент. */
