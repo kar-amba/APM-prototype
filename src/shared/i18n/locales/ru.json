@@ -1,0 +1,89 @@
+{
+  "app": {
+    "name": "APM ГлоуБайт",
+    "tagline": "Управление надёжностью активов"
+  },
+  "nav": {
+    "dashboard": "Дашборд",
+    "assets": "Реестр активов",
+    "search": "Поиск активов",
+    "strategies": "Стратегии и мероприятия",
+    "rounds": "Обходы и маршруты",
+    "criticality": "Анализ критичности",
+    "statusSchemes": "Статусные схемы",
+    "catalogs": "Справочники"
+  },
+  "topbar": {
+    "searchPlaceholder": "Глобальный поиск по активам, местам, маршрутам…",
+    "settings": "Системные настройки",
+    "role": "Роль"
+  },
+  "roles": {
+    "reliabilityEngineer": "Инженер по надёжности",
+    "maintenancePlanner": "Планировщик ТОиР",
+    "operator": "Оператор",
+    "manager": "Руководитель"
+  },
+  "common": {
+    "comingSoon": "Раздел в разработке",
+    "comingSoonDescription": "Этот раздел прототипа появится на следующих шагах. Каркас и навигация уже готовы.",
+    "loading": "Загрузка…",
+    "search": "Поиск",
+    "reset": "Сбросить",
+    "create": "Создать",
+    "edit": "Редактировать",
+    "delete": "Удалить"
+  },
+  "criticalityLevel": {
+    "low": "Низкая",
+    "medium": "Средняя",
+    "high": "Высокая",
+    "critical": "Критическая"
+  },
+  "assetStatus": {
+    "in_operation": "В работе",
+    "standby": "В резерве",
+    "maintenance": "На обслуживании",
+    "fault": "Неисправен",
+    "decommissioned": "Выведен из эксплуатации"
+  },
+  "registry": {
+    "title": "Реестр активов",
+    "treeTitle": "Иерархия",
+    "treeSearchPlaceholder": "Поиск по дереву…",
+    "tableEmpty": "В выбранной ветке нет оборудования",
+    "selectAssetTitle": "Выберите актив",
+    "selectAssetDescription": "Выберите оборудование в таблице, чтобы увидеть карточку с паспортом, иерархией и историей.",
+    "columns": {
+      "name": "Наименование",
+      "code": "Код",
+      "class": "Класс",
+      "status": "Статус",
+      "criticality": "Критичность",
+      "location": "Функциональное место"
+    },
+    "tabs": {
+      "overview": "Обзор",
+      "passport": "Паспорт и атрибуты",
+      "hierarchy": "Иерархия",
+      "strategy": "Стратегия и мероприятия",
+      "rounds": "Обходы и замеры",
+      "history": "История и отказы",
+      "documents": "Документы"
+    },
+    "overview": {
+      "status": "Статус",
+      "criticality": "Критичность",
+      "class": "Класс",
+      "location": "Функциональное место",
+      "manufacturer": "Производитель",
+      "model": "Модель",
+      "serialNumber": "Серийный номер",
+      "inventoryNumber": "Инвентарный номер",
+      "commissionedAt": "Дата ввода в эксплуатацию",
+      "owner": "Владелец",
+      "planner": "Ответственный планировщик"
+    },
+    "tabPlaceholder": "Содержимое вкладки появится на следующих шагах прототипа."
+  }
+}
