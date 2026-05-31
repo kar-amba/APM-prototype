@@ -36,10 +36,15 @@ pnpm format               # Prettier
 - Оболочка приложения: sidebar на 8 разделов, верхняя панель, переключатель роли.
 - Дизайн-система из брендбука (CSS-токены и классы), шрифты Inter / JetBrains Mono.
 - Локализация (react-i18next, русский язык).
-- Слой данных: модель (Zod), интерфейс репозитория, in-memory реализация и
-  мок-сиды демо-предприятия «ГлоуБайт-Металл».
+- Слой данных: доменная модель (Zod) по всем сущностям v1, интерфейс репозитория
+  и наполненные мок-сиды демо-предприятия «ГлоуБайт-Металл».
+- **Режимы хранения** (системные настройки): in-memory (сиды), localStorage,
+  IndexedDB (Dexie) — со сбросом к исходным данным.
 - Вертикальный срез **«Реестр активов»**: дерево иерархии + таблица + карточка
-  актива с вкладками.
+  актива с вкладками + **интерактивный CRUD** (React Hook Form + Zod) по активам
+  и функциональным местам.
 
-Остальные разделы пока представлены заглушками. План работ:
-[`docs/exec-plans/active/skeleton-scaffold.md`](docs/exec-plans/active/skeleton-scaffold.md).
+Остальные разделы пока представлены заглушками. Планы работ:
+[`docs/exec-plans/active/skeleton-scaffold.md`](docs/exec-plans/active/skeleton-scaffold.md)
+и дорожная карта обвязки
+[`docs/exec-plans/active/feature-buildout/`](docs/exec-plans/active/feature-buildout/index.md).
