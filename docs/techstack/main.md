@@ -128,10 +128,33 @@ LTS-версия.
 **ESLint + Prettier** — единый стиль и базовые проверки. **Vitest + React Testing
 Library** — для тестов (по мере необходимости). CI/CD пока не настраивается.
 
-### Структура проекта (ориентир)
+### Структура проекта (фактическая)
 Организация по слоям/фичам с однонаправленными зависимостями
-(`Модель → Данные → Сервисы → UI`), см. `../../ARCHITECTURE.md`. Точная раскладка
-папок фиксируется при старте разработки.
+(`Модель → Данные → Сервисы → UI`), см. `../../ARCHITECTURE.md`.
+
+```
+src/
+├── model/            # типы и Zod-схемы (FunctionalLocation, Asset, common)
+├── data/             # слой доступа к данным
+│   ├── repository.ts # интерфейс репозитория
+│   ├── in-memory/    # in-memory реализация
+│   ├── mock/         # мок-сиды демо-предприятия
+│   └── index.ts      # фабрика + singleton appRepository
+├── services/         # бизнес-логика (задел, пока пусто)
+├── store/            # Zustand-сторы (uiStore: роль/UI)
+├── shared/
+│   ├── styles/       # tokens.css + global.css (классы брендбука)
+│   ├── ui/           # обёртки: Button, Badge, Card, Tabs, EmptyState
+│   └── i18n/         # react-i18next + locales/ru.json
+├── app/              # оболочка: AppShell, router, navigation, PlaceholderPage
+├── features/         # разделы продукта
+│   ├── asset-registry/   # вертикальный срез (дерево + таблица + детали)
+│   ├── dashboard/ asset-search/ strategies/ rounds/
+│   └── criticality/ status-schemes/ catalogs/   # заглушки
+└── main.tsx          # точка входа (RouterProvider)
+```
+
+Алиас `@/*` → `src/*` (см. `vite.config.ts` и `tsconfig.app.json`).
 
 ---
 
