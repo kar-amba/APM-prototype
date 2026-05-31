@@ -1,36 +1,67 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { appRepository } from '@/data';
-import type { Asset, FunctionalLocation } from '@/model';
+import { nanoid } from 'nanoid';
+import { Pencil, Plus, Trash2 } from 'lucide-react';
+import type { Asset, Classification, FunctionalLocation } from '@/model';
+import { useDataStore, useRepository } from '@/store/dataStore';
+import { Button, Modal } from '@/shared/ui';
 import { LocationTree } from './LocationTree';
 import { AssetTable } from './AssetTable';
 import { AssetDetails } from './AssetDetails';
+import { AssetForm } from './AssetForm';
+import { LocationForm } from './LocationForm';
 import { buildLocationTree, filterAssetsByLocation } from './lib';
 import styles from './AssetRegistry.module.css';
 
+type ModalKind =
+  | 'asset-create'
+  | 'asset-edit'
+  | 'location-create'
+  | 'location-edit'
+  | null;
+
 export function AssetRegistryPage() {
   const { t } = useTranslation();
+  const repository = useRepository();
+  const revision = useDataStore((s) => s.revision);
+  const bumpRevision = useDataStore((s) => s.bumpRevision);
+
   const [locations, setLocations] = useState<FunctionalLocation[]>([]);
   const [assets, setAssets] = useState<Asset[]>([]);
+  const [classifications, setClassifications] = useState<Classification[]>([]);
   const [selectedLocationId, setSelectedLocationId] = useState<string | null>(
     null,
   );
   const [selectedAssetId, setSelectedAssetId] = useState<string | null>(null);
+  const [modal, setModal] = useState<ModalKind>(null);
+
+  const reload = useCallback(async () => {
+    const [locs, ass, cls] = await Promise.all([
+      repository.functionalLocations.list(),
+      repository.assets.list(),
+      repository.classifications.list(),
+    ]);
+    setLocations(locs);
+    setAssets(ass);
+    setClassifications(cls);
+  }, [repository]);
 
   useEffect(() => {
     let active = true;
     void Promise.all([
-      appRepository.functionalLocations.list(),
-      appRepository.assets.list(),
-    ]).then(([locs, ass]) => {
+      repository.functionalLocations.list(),
+      repository.assets.list(),
+      repository.classifications.list(),
+    ]).then(([locs, ass, cls]) => {
       if (!active) return;
       setLocations(locs);
       setAssets(ass);
+      setClassifications(cls);
     });
     return () => {
       active = false;
     };
-  }, []);
+  }, [repository, revision]);
 
   const tree = useMemo(() => buildLocationTree(locations), [locations]);
 
@@ -49,10 +80,115 @@ export function AssetRegistryPage() {
     [assets, selectedAssetId],
   );
 
+  const selectedLocation = useMemo(
+    () => locations.find((l) => l.id === selectedLocationId),
+    [locations, selectedLocationId],
+  );
+
+  const afterMutation = async () => {
+    setModal(null);
+    await reload();
+    bumpRevision();
+  };
+
+  const handleCreateAsset = async (values: Omit<Asset, 'id'>) => {
+    const created = await repository.assets.create({
+      id: `as-${nanoid(8)}`,
+      ...values,
+    });
+    setSelectedAssetId(created.id);
+    await afterMutation();
+  };
+
+  const handleUpdateAsset = async (values: Omit<Asset, 'id'>) => {
+    if (!selectedAsset) return;
+    await repository.assets.update(selectedAsset.id, values);
+    await afterMutation();
+  };
+
+  const handleDeleteAsset = async () => {
+    if (!selectedAsset) return;
+    if (!window.confirm(t('registry.deleteAssetConfirm'))) return;
+    await repository.assets.remove(selectedAsset.id);
+    setSelectedAssetId(null);
+    await afterMutation();
+  };
+
+  const handleCreateLocation = async (
+    values: Omit<FunctionalLocation, 'id'>,
+  ) => {
+    await repository.functionalLocations.create({
+      id: `fl-${nanoid(8)}`,
+      ...values,
+    });
+    await afterMutation();
+  };
+
+  const handleUpdateLocation = async (
+    values: Omit<FunctionalLocation, 'id'>,
+  ) => {
+    if (!selectedLocation) return;
+    await repository.functionalLocations.update(selectedLocation.id, values);
+    await afterMutation();
+  };
+
+  const handleDeleteLocation = async () => {
+    if (!selectedLocation) return;
+    const hasChildren = locations.some(
+      (l) => l.parentId === selectedLocation.id,
+    );
+    const hasAssets = assets.some(
+      (a) => a.functionalLocationId === selectedLocation.id,
+    );
+    if (hasChildren || hasAssets) {
+      window.alert(t('registry.deleteLocationBlocked'));
+      return;
+    }
+    if (!window.confirm(t('registry.deleteLocationConfirm'))) return;
+    await repository.functionalLocations.remove(selectedLocation.id);
+    setSelectedLocationId(null);
+    await afterMutation();
+  };
+
   return (
     <div className={styles.layout}>
       <section className={styles.pane}>
-        <header className={styles.paneHeader}>{t('registry.treeTitle')}</header>
+        <header className={styles.paneHeader}>
+          <span>{t('registry.treeTitle')}</span>
+          <span className={styles.paneActions}>
+            {selectedLocation && (
+              <>
+                <Button
+                  size="sm"
+                  variant="ghost"
+                  title={t('common.edit')}
+                  aria-label={t('common.edit')}
+                  onClick={() => setModal('location-edit')}
+                >
+                  <Pencil size={15} />
+                </Button>
+                <Button
+                  size="sm"
+                  variant="ghost"
+                  title={t('common.delete')}
+                  aria-label={t('common.delete')}
+                  onClick={handleDeleteLocation}
+                >
+                  <Trash2 size={15} />
+                </Button>
+              </>
+            )}
+            <Button
+              size="sm"
+              variant="ghost"
+              title={t('registry.addLocation')}
+              aria-label={t('registry.addLocation')}
+              onClick={() => setModal('location-create')}
+            >
+              <Plus size={16} />
+            </Button>
+          </span>
+        </header>
         <LocationTree
           data={tree}
           selectedId={selectedLocationId}
