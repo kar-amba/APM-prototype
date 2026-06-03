@@ -7,6 +7,9 @@ node_modules
 dist
 dist-ssr
 
+# состояние Makefile/скрипта управления (pid, логи)
+.apm
+
 # logs
 *.log
 npm-debug.log*

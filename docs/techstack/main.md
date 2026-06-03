@@ -128,6 +128,23 @@ LTS-версия.
 **ESLint + Prettier** — единый стиль и базовые проверки. **Vitest + React Testing
 Library** — для тестов (по мере необходимости). CI/CD пока не настраивается.
 
+### Контейнеризация (Docker)
+Опциональный запуск в Docker (сам Docker для разработки не обязателен — основной
+путь остаётся через `make start`):
+
+- **`Dockerfile`** — multi-stage сборка. Этап `build` на `node:22-alpine` (pnpm
+  через corepack, `--frozen-lockfile`, `pnpm build`); этап `runtime` на
+  `nginx:1.27-alpine` раздаёт только статику из `dist`. Тулчейн и `node_modules`
+  в финальный образ не попадают.
+- **`nginx.conf`** — SPA-fallback (`try_files … /index.html`) для React Router,
+  длинный кеш хешированных `/assets/`, `no-cache` для `index.html`, gzip.
+- **`docker-compose.yml`** — два профиля: `app` (production, `http://localhost:8080`)
+  и `dev` (Vite с hot-reload, `http://localhost:5173`).
+- **`Makefile`** — цели `docker-build`, `docker-up`, `docker-down`, `docker-dev`,
+  `docker-logs`.
+
+Быстрый старт: `make docker-up` (production) или `make docker-dev` (hot-reload).
+
 ### Структура проекта (фактическая)
 Организация по слоям/фичам с однонаправленными зависимостями
 (`Модель → Данные → Сервисы → UI`), см. `../../ARCHITECTURE.md`.

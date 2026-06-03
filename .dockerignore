@@ -1,0 +1,34 @@
+# Зависимости и артефакты сборки — устанавливаются/собираются внутри образа.
+node_modules
+dist
+dist-ssr
+
+# Состояние dev-скрипта (pid, логи) и прочие логи.
+.apm
+*.log
+npm-debug.log*
+pnpm-debug.log*
+
+# TS build cache.
+*.tsbuildinfo
+
+# Локальное окружение и секреты.
+.env
+*.local
+
+# Git и редактор/ОС.
+.git
+.gitignore
+.vscode
+.DS_Store
+
+# Документация и служебка, не нужная в образе.
+docs
+agent-transcripts
+*.md
+Makefile
+
+# Сами docker-файлы внутрь образа не копируем.
+Dockerfile
+.dockerignore
+docker-compose.yml

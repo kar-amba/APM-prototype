@@ -31,6 +31,24 @@ pnpm format               # Prettier
 > Если `corepack enable` недоступен (нет прав на запись в каталог Node),
 > запускайте pnpm напрямую: `corepack pnpm@11.5.0 install`, `corepack pnpm@11.5.0 dev` и т.д.
 
+### Makefile: запуск с контролем состояния
+
+Для управления dev-сервером в фоне есть `Makefile` (тонкая обёртка над
+`scripts/apm-control.mjs`). В отличие от `pnpm dev`, он запускает сервер фоном,
+отслеживает PID (`.apm/dev.pid`) и проверяет порт 5173:
+
+```bash
+make start      # запустить фоном и дождаться готовности порта
+make status     # состояние: процесс + порт 5173
+make logs       # лог дев-сервера (.apm/dev.log)
+make restart
+make stop
+```
+
+> Требуется установленный GNU make (команды установки — в шапке `Makefile`).
+> Без make ту же логику можно вызвать напрямую:
+> `node scripts/apm-control.mjs <start|stop|status|restart>`.
+
 ## Что уже реализовано
 
 - Оболочка приложения: sidebar на 8 разделов, верхняя панель, переключатель роли.

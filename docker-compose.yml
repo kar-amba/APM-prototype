@@ -1,0 +1,36 @@
+# Docker Compose для APM-прототипа ГлоуБайт.
+#
+# Два режима через профили:
+#   docker compose up app           — production-сборка под nginx (порт 8080).
+#   docker compose --profile dev up  — dev-сервер Vite с hot-reload (порт 5173).
+
+services:
+  # Production: собранная статика, раздаётся через nginx.
+  app:
+    build:
+      context: .
+      target: runtime
+    image: apm-glowbyte-prototype:latest
+    ports:
+      - "8080:80"
+    restart: unless-stopped
+
+  # Dev: исходники монтируются внутрь, Vite поднимается с hot-reload.
+  # node_modules — отдельный том, чтобы не затирать установленные в образе зависимости
+  # локальной (возможно, пустой или платформо-зависимой) папкой с хоста.
+  dev:
+    profiles: ["dev"]
+    image: node:22-alpine
+    working_dir: /app
+    command: sh -c "corepack enable && pnpm install --frozen-lockfile && pnpm dev --host 0.0.0.0"
+    environment:
+      # Polling нужен для надёжного watch внутри контейнера (особенно на Windows/WSL).
+      CHOKIDAR_USEPOLLING: "true"
+    ports:
+      - "5173:5173"
+    volumes:
+      - .:/app
+      - node_modules:/app/node_modules
+
+volumes:
+  node_modules:
