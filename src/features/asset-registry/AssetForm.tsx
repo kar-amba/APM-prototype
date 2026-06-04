@@ -9,6 +9,7 @@ import {
   type Asset,
   type Classification,
   type FunctionalLocation,
+  type Manufacturer,
 } from '@/model';
 import { Button } from '@/shared/ui';
 import styles from './AssetRegistry.module.css';
@@ -21,6 +22,7 @@ interface AssetFormProps {
   locations: FunctionalLocation[];
   classifications: Classification[];
   assets: Asset[];
+  manufacturers: Manufacturer[];
   initial?: Asset;
   defaultLocationId?: string | null;
   onSubmit: (values: Omit<Asset, 'id'>) => void;
@@ -31,6 +33,7 @@ export function AssetForm({
   locations,
   classifications,
   assets,
+  manufacturers,
   initial,
   defaultLocationId,
   onSubmit,
@@ -167,7 +170,16 @@ export function AssetForm({
 
         <div className={styles.formField}>
           <label className="label">{t('form.manufacturer')}</label>
-          <input className="input" {...register('manufacturer')} />
+          <input
+            className="input"
+            list="asset-manufacturers"
+            {...register('manufacturer')}
+          />
+          <datalist id="asset-manufacturers">
+            {manufacturers.map((m) => (
+              <option key={m.id} value={m.name} />
+            ))}
+          </datalist>
         </div>
 
         <div className={styles.formField}>
