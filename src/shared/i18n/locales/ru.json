@@ -147,6 +147,12 @@
     "high": "Высокая",
     "critical": "Критическая"
   },
+  "strategyType": {
+    "reactive": "Реактивная (до отказа)",
+    "preventive": "Планово-предупредительная",
+    "condition_based": "По состоянию",
+    "predictive": "Предиктивная"
+  },
   "assetStatus": {
     "in_operation": "В работе",
     "standby": "В резерве",
@@ -358,6 +364,60 @@
       "criticality": "Критичность",
       "location": "Функциональное место",
       "manufacturer": "Производитель"
+    }
+  },
+  "criticality": {
+    "title": "Анализ критичности",
+    "subtitle": "Матрица «последствия × вероятность» (RCM/FMECA) и ранжирование оборудования по риску.",
+    "assessAsset": "Оценить актив",
+    "assess": "Оценить",
+    "reassess": "Переоценить",
+    "matrixTitle": "Матрица критичности",
+    "matrixHint": "Клик по ячейке — список активов с такой оценкой.",
+    "axisConsequence": "Последствия",
+    "axisProbability": "Вероятность",
+    "cellAssetsTitle": "{{consequence}} × {{probability}} — активов: {{count}}",
+    "filteredByCell": "Ячейка {{consequence}} × {{probability}}",
+    "clearCellFilter": "Показать все",
+    "rankingTitle": "Ранжирование по риску",
+    "notAssessed": "не оценён",
+    "recommendedStrategy": "Рекомендуемая стратегия",
+    "score": "Риск-балл",
+    "level": "Класс критичности",
+    "tableEmpty": "Нет активов для отображения.",
+    "assessedCount": "Оценено: {{assessed}} из {{total}}",
+    "columns": {
+      "asset": "Актив",
+      "class": "Класс",
+      "factual": "Класс (реестр)",
+      "computed": "Расчётный класс",
+      "matrix": "C × P",
+      "score": "Риск-балл",
+      "assessedAt": "Дата оценки",
+      "action": "Действие"
+    },
+    "form": {
+      "asset": "Актив",
+      "selectAsset": "— выберите актив —",
+      "consequence": "Последствия отказа",
+      "probability": "Вероятность отказа",
+      "assessedBy": "Кто оценил",
+      "notSpecified": "— не указан —",
+      "previewTitle": "Итоговая оценка"
+    },
+    "consequenceScale": {
+      "1": "1 — Незначительные",
+      "2": "2 — Малые",
+      "3": "3 — Умеренные",
+      "4": "4 — Серьёзные",
+      "5": "5 — Катастрофические"
+    },
+    "probabilityScale": {
+      "1": "1 — Маловероятно",
+      "2": "2 — Редко",
+      "3": "3 — Возможно",
+      "4": "4 — Вероятно",
+      "5": "5 — Почти наверняка"
     }
   }
 }

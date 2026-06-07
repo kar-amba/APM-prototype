@@ -1,0 +1,24 @@
+---
+description: Менеджер пакетов для локальной сборки APM prototype
+alwaysApply: true
+---
+
+# Менеджер пакетов: всегда npm
+
+Для локальной сборки и работы с зависимостями в проекте **APM prototype**
+по умолчанию **всегда используй `npm`**, а не `pnpm`.
+
+- Установка зависимостей: `npm install`
+- Запуск скриптов: `npm run <script>`
+- Добавление пакета: `npm install <package>`
+- Lock-файл — `package-lock.json` (не `pnpm-lock.yaml`)
+
+```bash
+# ❌ НЕ используй
+pnpm install
+pnpm run dev
+
+# ✅ Используй
+npm install
+npm run dev
+```
