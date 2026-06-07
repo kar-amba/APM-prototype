@@ -95,6 +95,54 @@
     "markAllRead": "Прочитать все",
     "empty": "Уведомлений нет."
   },
+  "dashboard": {
+    "title": "Дашборд надёжности",
+    "subtitle": "Сводные KPI парка, топ критичных активов, последние отклонения по обходам, открытые дефекты и выполнение обходов. Виджеты обновляются по «живым» данным симулятора телеметрии.",
+    "kpi": {
+      "totalAssets": "Активов всего",
+      "criticalHint": "Высокой/критической: {{count}}",
+      "operationalRate": "Готовность парка",
+      "operationalHint": "В работе: {{inOperation}} из {{total}}",
+      "openDefects": "Открытые дефекты",
+      "criticalDefectsHint": "Критических: {{count}}",
+      "deviations": "Отклонения в замерах",
+      "roundsHint": "Обходов завершено: {{done}} из {{total}}"
+    },
+    "charts": {
+      "defectsTitle": "Новые дефекты по дням",
+      "defectsPeriod": "за 14 дней",
+      "defectsTooltip": "Дефектов",
+      "distributionTitle": "Распределение по критичности",
+      "assetsTooltip": "Активов"
+    },
+    "topCritical": {
+      "title": "Топ критичных активов",
+      "empty": "Нет активов для отображения.",
+      "asset": "Актив",
+      "criticality": "Критичность",
+      "score": "Риск-балл",
+      "openDefects": "Дефекты"
+    },
+    "deviations": {
+      "title": "Последние отклонения",
+      "empty": "Отклонений по замерам пока нет.",
+      "fail": "Отклонение",
+      "ok": "Норма"
+    },
+    "defects": {
+      "title": "Открытые дефекты",
+      "empty": "Открытых дефектов нет."
+    },
+    "rounds": {
+      "title": "Выполнение обходов",
+      "doneRate": "Завершено {{rate}}%",
+      "empty": "Обходы ещё не выполнялись.",
+      "inProgress": "В процессе",
+      "done": "Завершён",
+      "progress": "Пройдено {{recorded}} из {{total}}",
+      "deviations": "Отклонений: {{count}}"
+    }
+  },
   "form": {
     "code": "Код",
     "name": "Наименование",
