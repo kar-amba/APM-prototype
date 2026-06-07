@@ -30,7 +30,7 @@ help:
 	@echo   make clean     - удалить dist и служебную папку .apm
 	@echo   --- Docker ---
 	@echo   make docker-build - собрать production-образ (nginx + статика)
-	@echo   make docker-up    - поднять production-контейнер на http://localhost:8080
+	@echo   make docker-up    - поднять production-контейнер на http://localhost
 	@echo   make docker-down  - остановить и удалить контейнеры
 	@echo   make docker-dev   - dev-сервер Vite в контейнере (http://localhost:5173)
 	@echo   make docker-logs  - логи docker-compose

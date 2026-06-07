@@ -138,7 +138,7 @@ Library** — для тестов (по мере необходимости). CI
   в финальный образ не попадают.
 - **`nginx.conf`** — SPA-fallback (`try_files … /index.html`) для React Router,
   длинный кеш хешированных `/assets/`, `no-cache` для `index.html`, gzip.
-- **`docker-compose.yml`** — два профиля: `app` (production, `http://localhost:8080`)
+- **`docker-compose.yml`** — два профиля: `app` (production, `http://localhost`)
   и `dev` (Vite с hot-reload, `http://localhost:5173`).
 - **`Makefile`** — цели `docker-build`, `docker-up`, `docker-down`, `docker-dev`,
   `docker-logs`.

@@ -8,7 +8,7 @@ import paramiko
 
 # Значения по умолчанию для целевого сервера. setdefault не перетирает
 # переменные, заданные снаружи, — их по-прежнему можно переопределить в окружении.
-os.environ.setdefault("SSH_HOST", "45.132.18.113")
+os.environ.setdefault("SSH_HOST", "213.108.4.34")
 os.environ.setdefault("SSH_USER", "root")
 
 HOST = os.environ["SSH_HOST"]
@@ -189,22 +189,22 @@ def main():
     run(client, f"cd {REMOTE_DIR} && docker compose up -d app",
         "Start container")
 
-    # Firewall: если ufw активен — открываем 8080.
+    # Firewall: если ufw активен — открываем 80.
     run(client,
         "if command -v ufw >/dev/null 2>&1 && ufw status | grep -q 'Status: active'; "
-        "then ufw allow 8080/tcp; else echo 'ufw inactive/absent, skipping'; fi",
-        "Open firewall port 8080", check=False)
+        "then ufw allow 80/tcp; else echo 'ufw inactive/absent, skipping'; fi",
+        "Open firewall port 80", check=False)
 
     print("\n=== Waiting for container to come up ===")
     time.sleep(6)
     run(client, "docker compose -f /opt/apm/docker-compose.yml ps", "Container status", check=False)
-    run(client, "curl -s -o /dev/null -w 'HTTP %{http_code}\\n' http://127.0.0.1:8080/ || true",
+    run(client, "curl -s -o /dev/null -w 'HTTP %{http_code}\\n' http://127.0.0.1/ || true",
         "Local HTTP check", check=False)
-    run(client, "curl -s http://127.0.0.1:8080/ | head -c 400 || true",
+    run(client, "curl -s http://127.0.0.1/ | head -c 400 || true",
         "Index preview", check=False)
 
     client.close()
-    print(f"\nDONE. App should be available at http://{HOST}:8080/")
+    print(f"\nDONE. App should be available at http://{HOST}/")
 
 
 if __name__ == "__main__":
