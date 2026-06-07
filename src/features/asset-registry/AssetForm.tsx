@@ -4,12 +4,14 @@ import { useTranslation } from 'react-i18next';
 import type { z } from 'zod';
 import {
   assetSchema,
-  assetStatusSchema,
   criticalityLevelSchema,
   type Asset,
   type Classification,
   type FunctionalLocation,
   type Manufacturer,
+  type OrgUnit,
+  type Person,
+  type Status,
 } from '@/model';
 import { Button } from '@/shared/ui';
 import styles from './AssetRegistry.module.css';
@@ -23,6 +25,10 @@ interface AssetFormProps {
   classifications: Classification[];
   assets: Asset[];
   manufacturers: Manufacturer[];
+  orgUnits: OrgUnit[];
+  persons: Person[];
+  /** Состояния статусной схемы актива (для выбора стартового статуса). */
+  statuses: Status[];
   initial?: Asset;
   defaultLocationId?: string | null;
   onSubmit: (values: Omit<Asset, 'id'>) => void;
@@ -34,12 +40,17 @@ export function AssetForm({
   classifications,
   assets,
   manufacturers,
+  orgUnits,
+  persons,
+  statuses,
   initial,
   defaultLocationId,
   onSubmit,
   onCancel,
 }: AssetFormProps) {
   const { t } = useTranslation();
+  const defaultStatusId =
+    statuses.find((s) => s.isInitial)?.id ?? statuses[0]?.id ?? '';
   const {
     register,
     handleSubmit,
@@ -54,15 +65,15 @@ export function AssetForm({
       functionalLocationId:
         initial?.functionalLocationId ?? defaultLocationId ?? '',
       parentAssetId: initial?.parentAssetId ?? null,
-      status: initial?.status ?? 'in_operation',
+      statusId: initial?.statusId ?? defaultStatusId,
       criticality: initial?.criticality ?? 'medium',
       manufacturer: initial?.manufacturer ?? '',
       modelName: initial?.modelName ?? '',
       serialNumber: initial?.serialNumber ?? '',
       inventoryNumber: initial?.inventoryNumber ?? '',
       commissionedAt: initial?.commissionedAt ?? '',
-      owner: initial?.owner ?? '',
-      planner: initial?.planner ?? '',
+      ownerId: initial?.ownerId,
+      plannerId: initial?.plannerId,
     },
   });
 
@@ -148,13 +159,16 @@ export function AssetForm({
 
         <div className={styles.formField}>
           <label className="label label-required">{t('form.status')}</label>
-          <select className="input" {...register('status')}>
-            {assetStatusSchema.options.map((s) => (
-              <option key={s} value={s}>
-                {t(`assetStatus.${s}`)}
+          <select className="input" {...register('statusId')}>
+            {statuses.map((s) => (
+              <option key={s.id} value={s.id}>
+                {s.name}
               </option>
             ))}
           </select>
+          {err('statusId') && (
+            <span className="help-text error">{err('statusId')}</span>
+          )}
         </div>
 
         <div className={styles.formField}>
@@ -204,12 +218,36 @@ export function AssetForm({
 
         <div className={styles.formField}>
           <label className="label">{t('form.owner')}</label>
-          <input className="input" {...register('owner')} />
+          <select
+            className="input"
+            {...register('ownerId', {
+              setValueAs: (v) => (v === '' ? undefined : v),
+            })}
+          >
+            <option value="">—</option>
+            {orgUnits.map((o) => (
+              <option key={o.id} value={o.id}>
+                {o.name}
+              </option>
+            ))}
+          </select>
         </div>
 
         <div className={styles.formField}>
           <label className="label">{t('form.planner')}</label>
-          <input className="input" {...register('planner')} />
+          <select
+            className="input"
+            {...register('plannerId', {
+              setValueAs: (v) => (v === '' ? undefined : v),
+            })}
+          >
+            <option value="">—</option>
+            {persons.map((p) => (
+              <option key={p.id} value={p.id}>
+                {p.name}
+              </option>
+            ))}
+          </select>
         </div>
       </div>
 

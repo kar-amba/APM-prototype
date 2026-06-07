@@ -220,6 +220,16 @@
   font-weight: 500;
 }
 
+.assetLink {
+  font-weight: 500;
+  color: var(--color-accent);
+  text-decoration: none;
+}
+
+.assetLink:hover {
+  text-decoration: underline;
+}
+
 .assetCode {
   font-family: var(--font-mono);
   font-size: var(--text-xs);

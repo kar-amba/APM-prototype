@@ -1,5 +1,6 @@
 import type { z } from 'zod';
 import type { Repository } from '../repository';
+import type { Migrator } from '../migrations';
 
 /**
  * Универсальный in-memory репозиторий. Данные валидируются Zod-схемой на
@@ -10,8 +11,10 @@ export class InMemoryRepository<T extends { id: string }>
 {
   private items: Map<string, T>;
 
-  constructor(seed: readonly T[], schema: z.ZodType<T>) {
-    const validated = seed.map((item) => schema.parse(item));
+  constructor(seed: readonly T[], schema: z.ZodType<T>, migrate?: Migrator) {
+    const validated = seed.map((item) =>
+      schema.parse(migrate ? migrate(item) : item),
+    );
     this.items = new Map(validated.map((item) => [item.id, item]));
   }
 

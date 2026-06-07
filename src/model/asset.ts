@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { assetStatusSchema, criticalityLevelSchema } from './common';
+import { criticalityLevelSchema } from './common';
 
 /**
  * Актив (оборудование) — «что» физически установлено.
@@ -17,7 +17,12 @@ export const assetSchema = z.object({
   functionalLocationId: z.string().min(1),
   /** Родительский актив (узел/единица), если это узел или компонент. */
   parentAssetId: z.string().nullable(),
-  status: assetStatusSchema,
+  /**
+   * Текущий статус — ссылка на состояние (`Status.id`) статусной схемы актива
+   * (`entityKind='asset'`). Заменяет прежний enum `status`; переходы валидируются
+   * по схеме через сервис `status-flow`.
+   */
+  statusId: z.string().min(1),
   criticality: criticalityLevelSchema,
   manufacturer: z.string().optional(),
   modelName: z.string().optional(),
@@ -25,8 +30,10 @@ export const assetSchema = z.object({
   inventoryNumber: z.string().optional(),
   /** ISO-дата ввода в эксплуатацию. */
   commissionedAt: z.string().optional(),
-  owner: z.string().optional(),
-  planner: z.string().optional(),
+  /** Владелец-подразделение — ссылка на `OrgUnit`. */
+  ownerId: z.string().optional(),
+  /** Ответственный планировщик — ссылка на `Person`. */
+  plannerId: z.string().optional(),
 });
 
 export type Asset = z.infer<typeof assetSchema>;

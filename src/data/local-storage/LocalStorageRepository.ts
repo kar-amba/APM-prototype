@@ -1,20 +1,29 @@
 import { z } from 'zod';
 import type { Repository } from '../repository';
+import type { Migrator } from '../migrations';
 
 /**
  * Репозиторий поверх localStorage. Данные сохраняются между сессиями; при первом
- * обращении (пустой ключ) загружаются сиды. Каждое чтение валидируется Zod —
- * повреждённые данные не попадают в приложение.
+ * обращении (пустой ключ) загружаются сиды. Каждое чтение прогоняется через
+ * адаптер миграции (если задан) и валидируется Zod — повреждённые данные не
+ * попадают в приложение, а записи старого формата мигрируются на лету.
  */
 export class LocalStorageRepository<T extends { id: string }>
   implements Repository<T>
 {
   private readonly storageKey: string;
   private readonly schema: z.ZodType<T>;
+  private readonly migrate?: Migrator;
 
-  constructor(storageKey: string, seed: readonly T[], schema: z.ZodType<T>) {
+  constructor(
+    storageKey: string,
+    seed: readonly T[],
+    schema: z.ZodType<T>,
+    migrate?: Migrator,
+  ) {
     this.storageKey = storageKey;
     this.schema = schema;
+    this.migrate = migrate;
     if (localStorage.getItem(storageKey) === null) {
       this.writeAll(seed.map((item) => schema.parse(item)));
     }
@@ -24,7 +33,10 @@ export class LocalStorageRepository<T extends { id: string }>
     const raw = localStorage.getItem(this.storageKey);
     if (!raw) return [];
     try {
-      return z.array(this.schema).parse(JSON.parse(raw));
+      const parsed = JSON.parse(raw);
+      const items = Array.isArray(parsed) ? parsed : [];
+      const migrated = this.migrate ? items.map(this.migrate) : items;
+      return z.array(this.schema).parse(migrated);
     } catch {
       return [];
     }

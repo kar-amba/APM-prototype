@@ -2,12 +2,28 @@ import os
 import sys
 import time
 import tarfile
+import argparse
 import posixpath
 import paramiko
 
+# Значения по умолчанию для целевого сервера. setdefault не перетирает
+# переменные, заданные снаружи, — их по-прежнему можно переопределить в окружении.
+os.environ.setdefault("SSH_HOST", "45.132.18.113")
+os.environ.setdefault("SSH_USER", "root")
+
 HOST = os.environ["SSH_HOST"]
 USER = os.environ["SSH_USER"]
-PASSWORD = os.environ.get("SSH_PASS")
+
+# Пароль берём из аргумента командной строки (приоритетно), иначе из SSH_PASS.
+# Пример: python _deploy.py <пароль>  или  python _deploy.py --password <пароль>
+_parser = argparse.ArgumentParser(description="Деплой APM-прототипа на сервер по SSH.")
+_parser.add_argument("password", nargs="?", default=None,
+                     help="SSH-пароль (если не используется ключ ~/.ssh/apm_server_rsa)")
+_parser.add_argument("--password", dest="password_opt", default=None,
+                     help="то же, что позиционный аргумент пароля")
+_args = _parser.parse_args()
+
+PASSWORD = _args.password_opt or _args.password or os.environ.get("SSH_PASS")
 KEY_PATH = os.path.join(os.path.expanduser("~"), ".ssh", "apm_server_rsa")
 
 PROJECT_DIR = os.path.dirname(os.path.abspath(__file__))

@@ -24,6 +24,7 @@ import {
   unitOfMeasureSchema,
 } from '@/model';
 import type { AppRepository } from './repository';
+import { migrateAsset, type Migrator } from './migrations';
 import {
   assetAttributeValueSeed,
   assetSeed,
@@ -60,6 +61,12 @@ export interface EntityDescriptor {
   key: keyof AppRepository;
   schema: z.ZodType<Entity>;
   seed: readonly Entity[];
+  /**
+   * Одноразовый адаптер «сырой» записи перед валидацией Zod (на чтении из
+   * персистентного хранилища). Используется для миграции записей старого
+   * формата — см. `migrations.ts`.
+   */
+  migrate?: Migrator;
 }
 
 /** Хелпер: проверяет на этапе компиляции, что сид соответствует схеме. */
@@ -67,14 +74,15 @@ function ds<T extends Entity>(
   key: keyof AppRepository,
   schema: z.ZodType<T>,
   seed: readonly T[],
+  migrate?: Migrator,
 ): EntityDescriptor {
-  return { key, schema: schema as unknown as z.ZodType<Entity>, seed };
+  return { key, schema: schema as unknown as z.ZodType<Entity>, seed, migrate };
 }
 
 /** Все датасеты приложения (порядок учитывает зависимости при сидировании). */
 export const DATASETS: EntityDescriptor[] = [
   ds('functionalLocations', functionalLocationSchema, functionalLocationSeed),
-  ds('assets', assetSchema, assetSeed),
+  ds('assets', assetSchema, assetSeed, migrateAsset),
   ds('classifications', classificationSchema, classificationSeed),
   ds('attributeDefinitions', attributeDefinitionSchema, attributeDefinitionSeed),
   ds('assetAttributeValues', assetAttributeValueSchema, assetAttributeValueSeed),

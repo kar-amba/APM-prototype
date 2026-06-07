@@ -6,3 +6,5 @@ export { Tabs } from './Tabs';
 export type { TabItem } from './Tabs';
 export { EmptyState } from './EmptyState';
 export { Modal } from './Modal';
+export { ContextMenu } from './ContextMenu';
+export type { ContextMenuItem } from './ContextMenu';

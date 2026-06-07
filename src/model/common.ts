@@ -11,7 +11,14 @@ export type FunctionalLocationLevel = z.infer<
   typeof functionalLocationLevelSchema
 >;
 
-/** Статус актива (демо-набор; в проде задаётся статусной схемой). */
+/**
+ * Статус актива (исторический enum-набор).
+ *
+ * @deprecated Статус актива хранится как ссылка `Asset.statusId` на состояние
+ * статусной схемы (`entityKind='asset'`). Эти коды совпадают с `Status.code`
+ * базовой схемы `ss-asset` и используются только для миграции старых записей
+ * (см. `data/migrations.ts`). Новый код не должен опираться на этот enum.
+ */
 export const assetStatusSchema = z.enum([
   'in_operation', // В работе
   'standby', // В резерве

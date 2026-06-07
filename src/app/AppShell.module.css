@@ -207,3 +207,12 @@
   overflow: auto;
   padding: var(--space-6);
 }
+
+.routeFallback {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  color: var(--color-text-muted);
+  font-size: var(--text-sm);
+}

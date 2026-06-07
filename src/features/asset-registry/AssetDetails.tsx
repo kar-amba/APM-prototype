@@ -1,9 +1,9 @@
-import { useState } from 'react';
+import { useState, type ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
 import { PackageSearch } from 'lucide-react';
-import type { Asset } from '@/model';
+import type { Asset, Status } from '@/model';
 import { Badge, EmptyState, Tabs, type TabItem } from '@/shared/ui';
-import { criticalityTone, statusTone } from './lib';
+import { criticalityTone } from './lib';
 import styles from './AssetRegistry.module.css';
 
 /** Строка атрибута класса актива (имя + отформатированное значение). */
@@ -15,15 +15,20 @@ export interface AttributeRow {
 
 /** Разрешённые из текущего статуса переходы (по статусной схеме актива). */
 export interface StatusAction {
-  options: Array<{ code: string; name: string }>;
+  options: Array<{ id: string; name: string }>;
 }
 
 interface AssetDetailsProps {
   asset: Asset | undefined;
   locationNames: Map<string, string>;
+  currentStatus?: Status;
+  ownerName?: string;
+  plannerName?: string;
   attributes: AttributeRow[];
   statusAction?: StatusAction;
-  onChangeStatus: (code: string) => void;
+  onChangeStatus: (statusId: string) => void;
+  /** Виджеты связанных сущностей (на вкладке «Обзор» полной карточки). */
+  relatedWidgets?: ReactNode;
 }
 
 const TAB_IDS = [
@@ -39,9 +44,13 @@ const TAB_IDS = [
 export function AssetDetails({
   asset,
   locationNames,
+  currentStatus,
+  ownerName,
+  plannerName,
   attributes,
   statusAction,
   onChangeStatus,
+  relatedWidgets,
 }: AssetDetailsProps) {
   const { t } = useTranslation();
   const [activeTab, setActiveTab] = useState<string>('overview');
@@ -78,8 +87,8 @@ export function AssetDetails({
       label: t('registry.overview.commissionedAt'),
       value: asset.commissionedAt,
     },
-    { label: t('registry.overview.owner'), value: asset.owner },
-    { label: t('registry.overview.planner'), value: asset.planner },
+    { label: t('registry.overview.owner'), value: ownerName },
+    { label: t('registry.overview.planner'), value: plannerName },
   ];
 
   const hasTransitions = (statusAction?.options.length ?? 0) > 0;
@@ -89,9 +98,11 @@ export function AssetDetails({
       <div className={styles.detailsBody}>
         <div className={styles.detailsTitle}>{asset.name}</div>
         <div className="flex items-center gap-2 mt-4">
-          <Badge tone={statusTone[asset.status]} dot>
-            {t(`assetStatus.${asset.status}`)}
-          </Badge>
+          {currentStatus && (
+            <Badge tone={currentStatus.tone} dot>
+              {currentStatus.name}
+            </Badge>
+          )}
           <Badge tone={criticalityTone[asset.criticality]}>
             {t(`criticalityLevel.${asset.criticality}`)}
           </Badge>
@@ -111,7 +122,7 @@ export function AssetDetails({
             >
               <option value="">{t('registry.changeStatus')}…</option>
               {statusAction?.options.map((o) => (
-                <option key={o.code} value={o.code}>
+                <option key={o.id} value={o.id}>
                   {o.name}
                 </option>
               ))}
@@ -128,16 +139,19 @@ export function AssetDetails({
 
       <div className={styles.detailsBody}>
         {activeTab === 'overview' && (
-          <div className={styles.fieldList}>
-            {fields
-              .filter((f) => f.value)
-              .map((f) => (
-                <div key={f.label} className={styles.field}>
-                  <span className={styles.fieldLabel}>{f.label}</span>
-                  <span className={styles.fieldValue}>{f.value}</span>
-                </div>
-              ))}
-          </div>
+          <>
+            <div className={styles.fieldList}>
+              {fields
+                .filter((f) => f.value)
+                .map((f) => (
+                  <div key={f.label} className={styles.field}>
+                    <span className={styles.fieldLabel}>{f.label}</span>
+                    <span className={styles.fieldValue}>{f.value}</span>
+                  </div>
+                ))}
+            </div>
+            {relatedWidgets}
+          </>
         )}
         {activeTab === 'passport' &&
           (!asset.classificationId ? (

@@ -1,10 +1,5 @@
 import type { BadgeTone } from '@/shared/ui';
-import type {
-  Asset,
-  AssetStatus,
-  CriticalityLevel,
-  FunctionalLocation,
-} from '@/model';
+import type { Asset, CriticalityLevel, FunctionalLocation } from '@/model';
 
 export interface LocationNode extends FunctionalLocation {
   children: LocationNode[];
@@ -68,13 +63,10 @@ export function filterAssetsByLocation(
   return assets.filter((a) => ids.has(a.functionalLocationId));
 }
 
-export const statusTone: Record<AssetStatus, BadgeTone> = {
-  in_operation: 'success',
-  standby: 'info',
-  maintenance: 'warning',
-  fault: 'error',
-  decommissioned: 'default',
-};
+/** Путь маршрута полной карточки актива (под `AppShell`). */
+export function assetPath(id: string): string {
+  return `/assets/${encodeURIComponent(id)}`;
+}
 
 export const criticalityTone: Record<CriticalityLevel, BadgeTone> = {
   low: 'default',

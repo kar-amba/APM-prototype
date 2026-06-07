@@ -2,11 +2,13 @@ import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Bookmark, Plus, Search, Trash2, X } from 'lucide-react';
 import {
-  assetStatusSchema,
   criticalityLevelSchema,
   type AttributeDefinition,
   type Classification,
   type FunctionalLocation,
+  type OrgUnit,
+  type Person,
+  type Status,
 } from '@/model';
 import { Button, Modal } from '@/shared/ui';
 import { useSearchStore } from './searchStore';
@@ -18,8 +20,9 @@ interface FilterPanelProps {
   locations: FunctionalLocation[];
   attributeDefs: AttributeDefinition[];
   manufacturers: string[];
-  owners: string[];
-  planners: string[];
+  statuses: Status[];
+  owners: OrgUnit[];
+  planners: Person[];
 }
 
 const OPERATORS: AttributeOperator[] = ['gte', 'lte', 'eq'];
@@ -29,6 +32,7 @@ export function FilterPanel({
   locations,
   attributeDefs,
   manufacturers,
+  statuses,
   owners,
   planners,
 }: FilterPanelProps) {
@@ -116,9 +120,9 @@ export function FilterPanel({
               onChange={(e) => setFilters({ status: e.target.value })}
             >
               <option value="">{t('common.all')}</option>
-              {assetStatusSchema.options.map((s) => (
-                <option key={s} value={s}>
-                  {t(`assetStatus.${s}`)}
+              {statuses.map((s) => (
+                <option key={s.id} value={s.id}>
+                  {s.name}
                 </option>
               ))}
             </select>
@@ -166,8 +170,8 @@ export function FilterPanel({
             >
               <option value="">{t('common.all')}</option>
               {owners.map((o) => (
-                <option key={o} value={o}>
-                  {o}
+                <option key={o.id} value={o.id}>
+                  {o.name}
                 </option>
               ))}
             </select>
@@ -181,8 +185,8 @@ export function FilterPanel({
             >
               <option value="">{t('common.all')}</option>
               {planners.map((p) => (
-                <option key={p} value={p}>
-                  {p}
+                <option key={p.id} value={p.id}>
+                  {p.name}
                 </option>
               ))}
             </select>

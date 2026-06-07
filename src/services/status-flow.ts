@@ -55,3 +55,40 @@ export function allowedNextStatuses(
   );
   return statuses.filter((s) => targetIds.has(s.id));
 }
+
+/** Контекст статуса актива: схема, её состояния, текущее и допустимые переходы. */
+export interface AssetStatusContext {
+  scheme: StatusScheme;
+  /** Все состояния схемы актива (для выпадающих списков и бейджей). */
+  statuses: Status[];
+  /** Текущее состояние актива по `statusId` (если найдено в схеме). */
+  current?: Status;
+  /** Состояния, в которые разрешён переход из текущего. */
+  next: Status[];
+}
+
+/**
+ * Сводит данные статусной схемы актива к одному контексту: применяется в реестре
+ * и на карточке, чтобы смена статуса уважала переходы схемы (`entityKind='asset'`).
+ */
+export function resolveAssetStatus(
+  statusId: string | undefined,
+  schemes: StatusScheme[],
+  statuses: Status[],
+  transitions: Transition[],
+): AssetStatusContext | undefined {
+  const scheme = findSchemeForEntity('asset', schemes);
+  if (!scheme) return undefined;
+  const schemeStatuses = statusesOfScheme(scheme.id, statuses);
+  const current = statusId
+    ? schemeStatuses.find((s) => s.id === statusId)
+    : undefined;
+  const next = current
+    ? allowedNextStatuses(
+        current.id,
+        schemeStatuses,
+        transitionsOfScheme(scheme.id, transitions),
+      )
+    : [];
+  return { scheme, statuses: schemeStatuses, current, next };
+}

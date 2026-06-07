@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { Suspense, useState } from 'react';
 import { NavLink, Outlet, useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { Search, Settings } from 'lucide-react';
@@ -105,7 +105,11 @@ export function AppShell() {
         </header>
 
         <main className={styles.content}>
-          <Outlet />
+          <Suspense
+            fallback={<div className={styles.routeFallback}>{t('common.loading')}</div>}
+          >
+            <Outlet />
+          </Suspense>
         </main>
       </div>
 

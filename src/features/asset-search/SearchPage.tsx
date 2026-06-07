@@ -7,9 +7,15 @@ import type {
   AttributeDefinition,
   Classification,
   FunctionalLocation,
+  OrgUnit,
+  Person,
+  Status,
+  StatusScheme,
+  Transition,
 } from '@/model';
 import { useDataStore, useRepository } from '@/store/dataStore';
 import { useUiStore } from '@/store/uiStore';
+import { resolveAssetStatus } from '@/services/status-flow';
 import { FilterPanel } from './FilterPanel';
 import { ResultsTable } from './ResultsTable';
 import { useSearchStore } from './searchStore';
@@ -38,6 +44,11 @@ export function SearchPage() {
   const [attributeValues, setAttributeValues] = useState<
     AssetAttributeValue[]
   >([]);
+  const [orgUnits, setOrgUnits] = useState<OrgUnit[]>([]);
+  const [persons, setPersons] = useState<Person[]>([]);
+  const [schemes, setSchemes] = useState<StatusScheme[]>([]);
+  const [statuses, setStatuses] = useState<Status[]>([]);
+  const [transitions, setTransitions] = useState<Transition[]>([]);
 
   const loadAll = useCallback(
     () =>
@@ -47,20 +58,32 @@ export function SearchPage() {
         repository.classifications.list(),
         repository.attributeDefinitions.list(),
         repository.assetAttributeValues.list(),
+        repository.orgUnits.list(),
+        repository.persons.list(),
+        repository.statusSchemes.list(),
+        repository.statuses.list(),
+        repository.transitions.list(),
       ]),
     [repository],
   );
 
   useEffect(() => {
     let active = true;
-    void loadAll().then(([ass, locs, cls, defs, vals]) => {
-      if (!active) return;
-      setAssets(ass);
-      setLocations(locs);
-      setClassifications(cls);
-      setAttributeDefs(defs);
-      setAttributeValues(vals);
-    });
+    void loadAll().then(
+      ([ass, locs, cls, defs, vals, orgs, prs, sch, sts, trs]) => {
+        if (!active) return;
+        setAssets(ass);
+        setLocations(locs);
+        setClassifications(cls);
+        setAttributeDefs(defs);
+        setAttributeValues(vals);
+        setOrgUnits(orgs);
+        setPersons(prs);
+        setSchemes(sch);
+        setStatuses(sts);
+        setTransitions(trs);
+      },
+    );
     return () => {
       active = false;
     };
@@ -71,13 +94,20 @@ export function SearchPage() {
     [locations],
   );
 
+  const statusById = useMemo(
+    () => new Map(statuses.map((s) => [s.id, s])),
+    [statuses],
+  );
+
+  const assetSchemeStatuses = useMemo(
+    () =>
+      resolveAssetStatus(undefined, schemes, statuses, transitions)?.statuses ??
+      [],
+    [schemes, statuses, transitions],
+  );
+
   const manufacturers = useMemo(
     () => distinct(assets.map((a) => a.manufacturer)),
-    [assets],
-  );
-  const owners = useMemo(() => distinct(assets.map((a) => a.owner)), [assets]);
-  const planners = useMemo(
-    () => distinct(assets.map((a) => a.planner)),
     [assets],
   );
 
@@ -105,8 +135,9 @@ export function SearchPage() {
           locations={locations}
           attributeDefs={attributeDefs}
           manufacturers={manufacturers}
-          owners={owners}
-          planners={planners}
+          statuses={assetSchemeStatuses}
+          owners={orgUnits}
+          planners={persons}
         />
       </aside>
 
@@ -121,6 +152,7 @@ export function SearchPage() {
           <ResultsTable
             assets={results}
             locationNames={locationNames}
+            statusById={statusById}
             onSelect={handleSelect}
           />
         </div>

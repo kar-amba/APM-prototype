@@ -31,12 +31,20 @@ function buildRepository(
 }
 
 function createInMemory(): AppRepository {
-  return buildRepository((d) => new InMemoryRepository(d.seed, d.schema));
+  return buildRepository(
+    (d) => new InMemoryRepository(d.seed, d.schema, d.migrate),
+  );
 }
 
 function createLocalStorage(): AppRepository {
   return buildRepository(
-    (d) => new LocalStorageRepository(`${LS_PREFIX}${d.key}`, d.seed, d.schema),
+    (d) =>
+      new LocalStorageRepository(
+        `${LS_PREFIX}${d.key}`,
+        d.seed,
+        d.schema,
+        d.migrate,
+      ),
   );
 }
 
@@ -58,7 +66,13 @@ function createDexie(): AppRepository {
   })();
 
   return buildRepository(
-    (d) => new DexieRepository(db.table<Entity, string>(d.key), ready),
+    (d) =>
+      new DexieRepository(
+        db.table<Entity, string>(d.key),
+        ready,
+        d.schema,
+        d.migrate,
+      ),
   );
 }
 

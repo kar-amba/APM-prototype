@@ -15,7 +15,11 @@ export interface AttributeFilter {
   value: string;
 }
 
-/** Полный набор фильтров поиска активов. Пустая строка = «без ограничения». */
+/**
+ * Полный набор фильтров поиска активов. Пустая строка = «без ограничения».
+ * Поля `status`/`owner`/`planner` хранят идентификаторы ссылок: состояние схемы
+ * (`statusId`), подразделение-владелец (`OrgUnit.id`) и планировщик (`Person.id`).
+ */
 export interface AssetFilters {
   query: string;
   classificationId: string;
@@ -100,13 +104,13 @@ export function applyFilters(
       return false;
     if (locationIds && !locationIds.has(asset.functionalLocationId))
       return false;
-    if (filters.status && asset.status !== filters.status) return false;
+    if (filters.status && asset.statusId !== filters.status) return false;
     if (filters.criticality && asset.criticality !== filters.criticality)
       return false;
     if (filters.manufacturer && asset.manufacturer !== filters.manufacturer)
       return false;
-    if (filters.owner && asset.owner !== filters.owner) return false;
-    if (filters.planner && asset.planner !== filters.planner) return false;
+    if (filters.owner && asset.ownerId !== filters.owner) return false;
+    if (filters.planner && asset.plannerId !== filters.planner) return false;
     if (!matchesAttribute(asset, filters.attribute, ctx)) return false;
     return true;
   });
