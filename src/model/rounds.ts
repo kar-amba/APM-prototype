@@ -53,7 +53,11 @@ export type RoundExecution = z.infer<typeof roundExecutionSchema>;
 /** Замер по точке контроля в рамках выполнения обхода. */
 export const readingSchema = z.object({
   id: z.string().min(1),
-  roundExecutionId: z.string().min(1),
+  /**
+   * Выполнение обхода, в котором сделан замер. Отсутствует у замеров симулятора
+   * телеметрии — они приходят потоком вне обхода (см. `services/telemetry.ts`).
+   */
+  roundExecutionId: z.string().min(1).optional(),
   routePointId: z.string().min(1),
   recordedAt: z.string(),
   value: scalarValueSchema,

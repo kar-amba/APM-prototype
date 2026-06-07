@@ -141,8 +141,13 @@ export function RoundsPage() {
     [executions],
   );
 
+  // Журнал — только ручные замеры обходов (с привязкой к выполнению). Поток
+  // симулятора телеметрии сюда не попадает (он питает тренды и дашборд).
   const sortedReadings = useMemo(
-    () => [...readings].sort((a, b) => b.recordedAt.localeCompare(a.recordedAt)),
+    () =>
+      readings
+        .filter((r) => r.roundExecutionId !== undefined)
+        .sort((a, b) => b.recordedAt.localeCompare(a.recordedAt)),
     [readings],
   );
 
@@ -511,7 +516,7 @@ export function RoundsPage() {
           <section className={styles.pane}>
             <header className={styles.paneHeader}>
               <span>{t('rounds.tabs.log')}</span>
-              <span className="text-xs text-muted">{readings.length}</span>
+              <span className="text-xs text-muted">{sortedReadings.length}</span>
             </header>
             <div className={styles.paneBody}>
               {sortedReadings.length === 0 ? (

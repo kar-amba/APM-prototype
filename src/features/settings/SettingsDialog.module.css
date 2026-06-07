@@ -63,3 +63,23 @@
   font-size: var(--text-sm);
   color: var(--color-text-muted);
 }
+
+.simRow {
+  display: flex;
+  align-items: flex-end;
+  gap: var(--space-4);
+  flex-wrap: wrap;
+}
+
+.simField {
+  display: flex;
+  flex-direction: column;
+  min-width: 180px;
+}
+
+.simStatus {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  margin-top: var(--space-4);
+}

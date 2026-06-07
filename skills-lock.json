@@ -1,0 +1,11 @@
+{
+  "version": 1,
+  "skills": {
+    "powerpoint": {
+      "source": "NousResearch/hermes-agent",
+      "sourceType": "github",
+      "skillPath": "skills/productivity/powerpoint/SKILL.md",
+      "computedHash": "3b056c3429cad6955eba02150316b6ce7fa92bc28f36125e5d79294b967e3e23"
+    }
+  }
+}

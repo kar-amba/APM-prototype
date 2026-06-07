@@ -5,6 +5,7 @@ import { Search, Settings } from 'lucide-react';
 import { navSections } from './navigation';
 import { ROLES, useUiStore, type Role } from '@/store/uiStore';
 import { SettingsDialog } from '@/features/settings/SettingsDialog';
+import { NotificationsMenu } from './NotificationsMenu';
 import styles from './AppShell.module.css';
 
 export function AppShell() {
@@ -92,6 +93,7 @@ export function AppShell() {
                 </option>
               ))}
             </select>
+            <NotificationsMenu />
             <button
               type="button"
               className={styles.iconButton}

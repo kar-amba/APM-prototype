@@ -2,6 +2,7 @@ import { nanoid } from 'nanoid';
 import type {
   CriticalityLevel,
   Defect,
+  DefectSource,
   Notification,
   Reading,
   RoundExecution,
@@ -125,8 +126,10 @@ export function readingTrend(
 }
 
 /**
- * Дефект из отклонения на обходе. Severity берётся от класса критичности актива
+ * Дефект из отклонения замера. Severity берётся от класса критичности актива
  * (если известен), иначе — средний. `detectedAt` совпадает с моментом замера.
+ * `source` различает источник отклонения (обход / симулятор телеметрии) —
+ * механизм общий для ручного ввода замеров и симулятора (см. план 10).
  */
 export function buildDeviationDefect(params: {
   assetId: string;
@@ -135,13 +138,14 @@ export function buildDeviationDefect(params: {
   title: string;
   description?: string;
   severity?: CriticalityLevel;
+  source?: DefectSource;
 }): Defect {
   return {
     id: `df-${nanoid(8)}`,
     assetId: params.assetId,
     title: params.title,
     description: params.description,
-    source: 'round',
+    source: params.source ?? 'round',
     severity: params.severity ?? 'medium',
     status: 'open',
     detectedAt: params.reading.recordedAt,
