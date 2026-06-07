@@ -1,0 +1,380 @@
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  height: 100%;
+  min-height: 0;
+}
+
+.header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--space-4);
+}
+
+.headerText {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.subtitle {
+  color: var(--color-text-muted);
+  font-size: var(--text-sm);
+  max-width: 72ch;
+}
+
+.tabsRow {
+  flex-shrink: 0;
+}
+
+.content {
+  flex: 1;
+  min-height: 0;
+}
+
+/* === Routes constructor layout === */
+.routesLayout {
+  display: grid;
+  grid-template-columns: 320px minmax(0, 1fr);
+  gap: var(--space-4);
+  height: 100%;
+  min-height: 0;
+}
+
+.pane {
+  background: var(--color-bg-surface);
+  border: var(--border-width) solid var(--color-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-xs);
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  height: 100%;
+  overflow: hidden;
+}
+
+.paneHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2);
+  padding: var(--space-3) var(--space-4);
+  border-bottom: var(--border-width) solid var(--color-border);
+  font-size: var(--text-sm);
+  font-weight: 600;
+}
+
+.paneBody {
+  flex: 1;
+  min-height: 0;
+  overflow: auto;
+}
+
+.paneBodyPadded {
+  flex: 1;
+  min-height: 0;
+  overflow: auto;
+  padding: var(--space-4);
+}
+
+/* === Route list === */
+.routeList {
+  list-style: none;
+}
+
+.routeItem {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  text-align: left;
+  padding: var(--space-3) var(--space-4);
+  border: none;
+  border-bottom: var(--border-width) solid var(--color-border);
+  background: transparent;
+  cursor: pointer;
+  font-family: var(--font-sans);
+  color: var(--color-text-secondary);
+  transition: background var(--transition-fast);
+}
+
+.routeItem:hover {
+  background: var(--color-bg-subtle);
+  color: var(--color-text-primary);
+}
+
+.routeItemActive,
+.routeItemActive:hover {
+  background: var(--color-accent-subtle);
+  color: var(--color-accent-active);
+}
+
+.routeItemName {
+  font-weight: 500;
+  font-size: var(--text-sm);
+}
+
+.routeItemCode {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  color: var(--color-text-placeholder);
+}
+
+/* === Tables === */
+.tableScroll {
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+}
+
+.dataTable {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--text-base);
+}
+
+.dataTable thead th {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  background: var(--color-bg-subtle);
+  padding: var(--space-3) var(--space-4);
+  font-size: var(--text-xs);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--color-text-muted);
+  text-align: left;
+  border-bottom: var(--border-width) solid var(--color-border);
+  white-space: nowrap;
+}
+
+.dataTable tbody td {
+  padding: var(--space-3) var(--space-4);
+  border-bottom: var(--border-width) solid var(--color-border);
+  color: var(--color-text-primary);
+  vertical-align: middle;
+}
+
+.dataTable tbody tr:hover {
+  background: var(--color-bg-subtle);
+}
+
+.primaryName {
+  font-weight: 500;
+}
+
+.code {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  color: var(--color-text-muted);
+}
+
+.mono {
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  color: var(--color-text-secondary);
+}
+
+.muted {
+  color: var(--color-text-placeholder);
+}
+
+.rowActions {
+  text-align: right;
+  white-space: nowrap;
+}
+
+/* === Execution === */
+.executionLayout {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  height: 100%;
+  min-height: 0;
+}
+
+.startBar {
+  display: flex;
+  align-items: flex-end;
+  gap: var(--space-4);
+  padding: var(--space-4);
+  background: var(--color-bg-surface);
+  border: var(--border-width) solid var(--color-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-xs);
+  flex-wrap: wrap;
+}
+
+.startField {
+  display: flex;
+  flex-direction: column;
+  min-width: 220px;
+}
+
+.startField .label {
+  margin-bottom: var(--space-2);
+}
+
+.execPane {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  background: var(--color-bg-surface);
+  border: var(--border-width) solid var(--color-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-xs);
+  overflow: hidden;
+}
+
+.execHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  padding: var(--space-4);
+  border-bottom: var(--border-width) solid var(--color-border);
+}
+
+.execTitle {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.execTitleName {
+  font-size: var(--text-md);
+  font-weight: 600;
+}
+
+.execProgress {
+  font-size: var(--text-sm);
+  color: var(--color-text-muted);
+}
+
+.execActions {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.pointList {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  padding: var(--space-4);
+  overflow: auto;
+}
+
+.pointCard {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  padding: var(--space-3) var(--space-4);
+  border: var(--border-width) solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-bg-subtle);
+}
+
+.pointCardDeviation {
+  border-color: var(--color-warning-border);
+  background: var(--color-warning-subtle);
+}
+
+.pointMain {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  flex: 1;
+  min-width: 0;
+}
+
+.pointName {
+  font-weight: 500;
+}
+
+.pointMeta {
+  font-size: var(--text-xs);
+  color: var(--color-text-muted);
+}
+
+.pointInput {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.pointInput .input {
+  width: 140px;
+}
+
+.pointResult {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-width: 120px;
+  justify-content: flex-end;
+}
+
+.alert {
+  margin: 0 var(--space-4) var(--space-4);
+}
+
+/* === Trend chart === */
+.chartWrap {
+  width: 100%;
+  height: 260px;
+}
+
+/* === Forms === */
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.formField {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.formRow {
+  display: flex;
+  gap: var(--space-4);
+}
+
+.formActions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--space-3);
+  margin-top: var(--space-2);
+}
+
+@media (max-width: 1024px) {
+  .routesLayout {
+    grid-template-columns: 1fr;
+    height: auto;
+  }
+  .pane {
+    min-height: 300px;
+  }
+}
+
+@media (max-width: 640px) {
+  .formRow {
+    flex-direction: column;
+  }
+  .pointCard {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .pointResult {
+    justify-content: flex-start;
+  }
+}

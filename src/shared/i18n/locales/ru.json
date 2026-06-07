@@ -108,7 +108,8 @@
     "position": "Должность",
     "orgUnit": "Подразделение",
     "orgUnitKind": "Тип",
-    "parentClass": "Родительский класс"
+    "parentClass": "Родительский класс",
+    "required": "Обязательное поле"
   },
   "statusTone": {
     "default": "Нейтральный",
@@ -152,6 +153,31 @@
     "preventive": "Планово-предупредительная",
     "condition_based": "По состоянию",
     "predictive": "Предиктивная"
+  },
+  "maintenanceTaskKind": {
+    "ppr": "ППР",
+    "inspection": "Осмотр",
+    "condition": "По состоянию"
+  },
+  "routePointKind": {
+    "measurement": "Замер",
+    "checklist": "Чек-лист"
+  },
+  "roundStatus": {
+    "planned": "Запланирован",
+    "in_progress": "В процессе",
+    "done": "Завершён"
+  },
+  "defectStatus": {
+    "open": "Открыт",
+    "in_progress": "В работе",
+    "resolved": "Устранён",
+    "closed": "Закрыт"
+  },
+  "defectSource": {
+    "round": "Обход",
+    "simulator": "Телеметрия",
+    "manual": "Вручную"
   },
   "assetStatus": {
     "in_operation": "В работе",
@@ -242,6 +268,30 @@
       "rounds": "Обходы и замеры",
       "criticality": "Критичность",
       "defects": "Дефекты"
+    },
+    "strategyTab": {
+      "tasksTitle": "Мероприятия ТОиР",
+      "empty": "Для актива и его класса не заданы мероприятия ТОиР.",
+      "strategy": "Стратегия",
+      "interval": "Периодичность",
+      "nextDue": "След. выполнение",
+      "binding": "Привязка",
+      "bindingDirect": "Напрямую к активу",
+      "bindingClass": "Через класс"
+    },
+    "roundsTab": {
+      "pointsTitle": "Точки контроля",
+      "empty": "Актив не входит ни в один маршрут обхода.",
+      "trendTitle": "Тренд замеров",
+      "trendHint": "Выберите точку контроля, чтобы увидеть историю измерений.",
+      "trendEmpty": "Недостаточно числовых замеров для построения тренда.",
+      "historyTitle": "История замеров",
+      "range": "Диапазон",
+      "recordedAt": "Дата и время",
+      "value": "Значение",
+      "status": "Статус",
+      "normal": "Норма",
+      "deviation": "Отклонение"
     }
   },
   "statusSchemes": {
@@ -418,6 +468,135 @@
       "3": "3 — Возможно",
       "4": "4 — Вероятно",
       "5": "5 — Почти наверняка"
+    }
+  },
+  "strategies": {
+    "title": "Стратегии и мероприятия",
+    "subtitle": "Стратегии обслуживания, привязка к активам и классам и задачи ТОиР с интервалами.",
+    "tabs": {
+      "strategies": "Стратегии",
+      "tasks": "Мероприятия ТОиР"
+    },
+    "addStrategy": "Стратегия",
+    "addStrategyTitle": "Новая стратегия",
+    "editStrategyTitle": "Редактирование стратегии",
+    "deleteStrategyConfirm": "Удалить стратегию? Связанные мероприятия также будут удалены.",
+    "addTask": "Мероприятие",
+    "addTaskTitle": "Новое мероприятие ТОиР",
+    "editTaskTitle": "Редактирование мероприятия",
+    "deleteTaskConfirm": "Удалить мероприятие ТОиР?",
+    "empty": "Стратегий пока нет.",
+    "tasksEmpty": "Мероприятий пока нет.",
+    "tasksCount": "Мероприятий: {{count}}",
+    "binding": "Привязка",
+    "bindingAsset": "Актив: {{name}}",
+    "bindingClass": "Класс: {{name}}",
+    "bindingNone": "Не привязано",
+    "nextDue": "Следующее: {{date}}",
+    "everyInterval": "каждые {{interval}}",
+    "recommendationsTitle": "Рекомендации по критичности",
+    "recommendationsHint": "Подсказка по выбору стратегии в зависимости от класса критичности актива (по последним оценкам).",
+    "recommendationAssets": "активов: {{count}}",
+    "columns": {
+      "code": "Код",
+      "name": "Наименование",
+      "type": "Тип",
+      "description": "Описание",
+      "tasks": "Мероприятия",
+      "task": "Мероприятие",
+      "kind": "Вид",
+      "strategy": "Стратегия",
+      "interval": "Периодичность",
+      "binding": "Привязка",
+      "nextDue": "След. выполнение"
+    },
+    "form": {
+      "code": "Код",
+      "name": "Наименование",
+      "type": "Тип стратегии",
+      "description": "Описание",
+      "strategy": "Стратегия",
+      "selectStrategy": "— выберите стратегию —",
+      "kind": "Вид мероприятия",
+      "intervalDays": "Интервал, дней",
+      "bindingMode": "Область применения",
+      "bindingAsset": "Конкретный актив",
+      "bindingClass": "Класс оборудования",
+      "asset": "Актив",
+      "selectAsset": "— выберите актив —",
+      "classification": "Класс оборудования",
+      "selectClass": "— выберите класс —"
+    }
+  },
+  "rounds": {
+    "title": "Обходы и маршруты",
+    "subtitle": "Конструктор маршрутов, выполнение обхода с вводом замеров и журнал измерений.",
+    "tabs": {
+      "routes": "Маршруты",
+      "execution": "Выполнение обхода",
+      "log": "Журнал замеров"
+    },
+    "addRoute": "Маршрут",
+    "addRouteTitle": "Новый маршрут",
+    "editRouteTitle": "Редактирование маршрута",
+    "deleteRouteConfirm": "Удалить маршрут? Его точки контроля также будут удалены.",
+    "routesEmpty": "Маршрутов пока нет.",
+    "selectRoute": "Выберите маршрут",
+    "selectRouteHint": "Выберите маршрут слева, чтобы настроить его точки контроля.",
+    "pointsTitle": "Точки контроля",
+    "addPoint": "Точка",
+    "addPointTitle": "Новая точка контроля",
+    "editPointTitle": "Редактирование точки",
+    "deletePointConfirm": "Удалить точку контроля?",
+    "pointsEmpty": "В маршруте пока нет точек контроля.",
+    "range": "Диапазон",
+    "order": "№",
+    "deviationDefectTitle": "Отклонение на обходе: {{point}}",
+    "deviationDefectDescription": "Замер «{{point}}» вне допустимого диапазона (зафиксировано значение {{value}}).",
+    "deviationNotification": "Отклонение по точке «{{point}}» ({{asset}})",
+    "execution": {
+      "title": "Выполнение обхода",
+      "selectRoute": "Маршрут",
+      "selectRoutePlaceholder": "— выберите маршрут —",
+      "performer": "Исполнитель",
+      "start": "Начать обход",
+      "finish": "Завершить обход",
+      "active": "Активный обход",
+      "noActive": "Нет активного обхода",
+      "noActiveHint": "Выберите маршрут и начните обход, чтобы вводить замеры по точкам.",
+      "progress": "Пройдено {{recorded}} из {{total}}",
+      "value": "Значение",
+      "checklistOk": "Норма",
+      "checklistFail": "Отклонение",
+      "save": "Сохранить замер",
+      "recorded": "Записано",
+      "deviation": "Отклонение",
+      "deviationCreatesDefect": "Замер вне диапазона создаст дефект и уведомление.",
+      "finished": "Обход завершён.",
+      "inProgressBadge": "В процессе"
+    },
+    "log": {
+      "empty": "Замеров пока нет.",
+      "columns": {
+        "recordedAt": "Дата и время",
+        "route": "Маршрут",
+        "point": "Точка контроля",
+        "value": "Значение",
+        "status": "Статус"
+      },
+      "normal": "Норма"
+    },
+    "form": {
+      "code": "Код",
+      "name": "Наименование",
+      "description": "Описание",
+      "asset": "Актив",
+      "selectAsset": "— выберите актив —",
+      "kind": "Тип точки",
+      "order": "Порядок",
+      "unit": "Единица измерения",
+      "min": "Минимум",
+      "max": "Максимум"
     }
   }
 }

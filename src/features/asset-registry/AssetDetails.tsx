@@ -29,6 +29,10 @@ interface AssetDetailsProps {
   onChangeStatus: (statusId: string) => void;
   /** Виджеты связанных сущностей (на вкладке «Обзор» полной карточки). */
   relatedWidgets?: ReactNode;
+  /** Контент вкладки «Стратегия и мероприятия». */
+  strategyTab?: ReactNode;
+  /** Контент вкладки «Обходы и замеры». */
+  roundsTab?: ReactNode;
 }
 
 const TAB_IDS = [
@@ -51,6 +55,8 @@ export function AssetDetails({
   statusAction,
   onChangeStatus,
   relatedWidgets,
+  strategyTab,
+  roundsTab,
 }: AssetDetailsProps) {
   const { t } = useTranslation();
   const [activeTab, setActiveTab] = useState<string>('overview');
@@ -179,9 +185,20 @@ export function AssetDetails({
               ))}
             </div>
           ))}
-        {activeTab !== 'overview' && activeTab !== 'passport' && (
-          <p className="text-muted">{t('registry.tabPlaceholder')}</p>
-        )}
+        {activeTab === 'strategy' &&
+          (strategyTab ?? (
+            <p className="text-muted">{t('registry.tabPlaceholder')}</p>
+          ))}
+        {activeTab === 'rounds' &&
+          (roundsTab ?? (
+            <p className="text-muted">{t('registry.tabPlaceholder')}</p>
+          ))}
+        {activeTab !== 'overview' &&
+          activeTab !== 'passport' &&
+          activeTab !== 'strategy' &&
+          activeTab !== 'rounds' && (
+            <p className="text-muted">{t('registry.tabPlaceholder')}</p>
+          )}
       </div>
     </>
   );

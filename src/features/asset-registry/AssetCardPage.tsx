@@ -29,6 +29,8 @@ import { resolveAssetStatus } from '@/services/status-flow';
 import { AssetDetails, type StatusAction } from './AssetDetails';
 import { AssetForm } from './AssetForm';
 import { AssetRelatedWidgets } from './AssetRelatedWidgets';
+import { AssetStrategyTab } from './AssetStrategyTab';
+import { AssetRoundsTab } from './AssetRoundsTab';
 import { buildAttributeRows } from './assetView';
 import styles from './AssetCard.module.css';
 
@@ -313,6 +315,21 @@ export function AssetCardPage() {
               readings={readings}
               criticalityAssessments={criticalityAssessments}
               defects={defects}
+            />
+          }
+          strategyTab={
+            <AssetStrategyTab
+              asset={asset}
+              strategies={strategies}
+              maintenanceTasks={maintenanceTasks}
+            />
+          }
+          roundsTab={
+            <AssetRoundsTab
+              asset={asset}
+              routePoints={routePoints}
+              readings={readings}
+              units={units}
             />
           }
         />
