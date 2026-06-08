@@ -108,3 +108,85 @@ export function isWidgetAccentForRole(
 ): boolean {
   return DASHBOARD_BY_ROLE[role].accentWidgets.includes(widgetId);
 }
+
+/** Вкладки раздела «Обходы и маршруты». */
+export type RoundsTabId = 'routes' | 'execution' | 'log';
+
+/** Ключи разделов для акцентных подсказок (совпадают с nav.i18nKey). */
+export type SectionAccentKey =
+  | 'dashboard'
+  | 'assets'
+  | 'strategies'
+  | 'rounds'
+  | 'criticality';
+
+export interface RoleAccentProfile {
+  /** Разделы навигации, подсвечиваемые как приоритетные для роли. */
+  accentNavPaths: string[];
+  /** Вкладка обходов по умолчанию при переходе в раздел. */
+  roundsDefaultTab: RoundsTabId;
+  /**
+   * Разделы, где показываем контекстную подсказку роли (ключ i18n
+   * `roles.profile.sectionHint.<role>.<section>`).
+   */
+  sectionHints: SectionAccentKey[];
+}
+
+const ACCENT_BY_ROLE: Record<Role, RoleAccentProfile> = {
+  reliabilityEngineer: {
+    accentNavPaths: ['/criticality', '/strategies'],
+    roundsDefaultTab: 'routes',
+    sectionHints: ['criticality', 'strategies'],
+  },
+  maintenancePlanner: {
+    accentNavPaths: ['/assets', '/strategies', '/search'],
+    roundsDefaultTab: 'routes',
+    sectionHints: ['assets', 'strategies'],
+  },
+  operator: {
+    accentNavPaths: ['/rounds'],
+    roundsDefaultTab: 'execution',
+    sectionHints: ['rounds'],
+  },
+  manager: {
+    accentNavPaths: ['/'],
+    roundsDefaultTab: 'log',
+    sectionHints: ['dashboard'],
+  },
+};
+
+/** Акценты навигации и разделов для демонстрационной роли. */
+export function getRoleAccentProfile(role: Role): RoleAccentProfile {
+  return ACCENT_BY_ROLE[role];
+}
+
+export function isAccentNavPath(role: Role, path: string): boolean {
+  return ACCENT_BY_ROLE[role].accentNavPaths.some((accentPath) =>
+    accentPath === '/'
+      ? path === '/'
+      : path === accentPath || path.startsWith(`${accentPath}/`),
+  );
+}
+
+export function getRoundsDefaultTab(role: Role): RoundsTabId {
+  return ACCENT_BY_ROLE[role].roundsDefaultTab;
+}
+
+export function hasSectionHint(
+  role: Role,
+  section: SectionAccentKey,
+): boolean {
+  return ACCENT_BY_ROLE[role].sectionHints.includes(section);
+}
+
+/** Полный профиль роли для UI. */
+export interface RoleProfile extends RoleHomeProfile, RoleDashboardProfile, RoleAccentProfile {}
+
+/** Собрать полный демонстрационный профиль роли. */
+export function getRoleProfile(role: Role): RoleProfile {
+  return {
+    ...HOME_BY_ROLE[role],
+    ...DASHBOARD_BY_ROLE[role],
+    ...ACCENT_BY_ROLE[role],
+  };
+}
