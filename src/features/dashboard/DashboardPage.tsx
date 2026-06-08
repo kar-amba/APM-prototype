@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState, type ReactNode } from 'react';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import {
@@ -22,6 +22,13 @@ import type {
   Status,
   UnitOfMeasure,
 } from '@/model';
+import { useRoleProfile } from '@/hooks/useRoleProfile';
+import {
+  isChartVisibleForRole,
+  isKpiAccentForRole,
+  isKpiVisibleForRole,
+  type DashboardKpiId,
+} from '@/services/role-profiles';
 import { useDataStore, useRepository } from '@/store/dataStore';
 import { Badge, EmptyState } from '@/shared/ui';
 import { assetPath, criticalityTone } from '@/features/asset-registry/lib';
@@ -56,6 +63,7 @@ function formatReadingValue(
 
 export function DashboardPage() {
   const { t } = useTranslation();
+  const { role } = useRoleProfile();
   const repository = useRepository();
   const revision = useDataStore((s) => s.revision);
 
@@ -142,7 +150,14 @@ export function DashboardPage() {
   );
   const roundsTotals = useMemo(() => roundsSummary(executions), [executions]);
 
-  const kpiTiles = [
+  const kpiTiles: Array<{
+    key: DashboardKpiId;
+    icon: ReactNode;
+    label: string;
+    value: string | number;
+    hint: string;
+    tone: 'accent' | 'success' | 'warning' | 'error';
+  }> = [
     {
       key: 'assets',
       icon: <Boxes size={18} />,
@@ -185,6 +200,13 @@ export function DashboardPage() {
     },
   ];
 
+  const visibleKpiTiles = kpiTiles.filter((tile) =>
+    isKpiVisibleForRole(role, tile.key),
+  );
+
+  const showDefectsTrend = isChartVisibleForRole(role, 'defectsTrend');
+  const showDistribution = isChartVisibleForRole(role, 'distribution');
+
   return (
     <div className={styles.page}>
       <div className={styles.header}>
@@ -194,9 +216,22 @@ export function DashboardPage() {
         </div>
       </div>
 
-      <div className={styles.kpiGrid}>
-        {kpiTiles.map((tile) => (
-          <div key={tile.key} className={styles.kpiCard}>
+      <div
+        className={styles.kpiGrid}
+        style={{
+          gridTemplateColumns: `repeat(${Math.max(visibleKpiTiles.length, 1)}, minmax(0, 1fr))`,
+        }}
+      >
+        {visibleKpiTiles.map((tile) => (
+          <div
+            key={tile.key}
+            className={[
+              styles.kpiCard,
+              isKpiAccentForRole(role, tile.key) && styles.kpiCardAccent,
+            ]
+              .filter(Boolean)
+              .join(' ')}
+          >
             <span
               className={[styles.kpiIcon, styles[`kpiIcon_${tile.tone}`]]
                 .filter(Boolean)
@@ -213,28 +248,39 @@ export function DashboardPage() {
         ))}
       </div>
 
-      <div className={styles.chartsRow}>
-        <section className={styles.pane}>
-          <header className={styles.paneHeader}>
-            <span>{t('dashboard.charts.defectsTitle')}</span>
-            <span className="text-xs text-muted">
-              {t('dashboard.charts.defectsPeriod')}
-            </span>
-          </header>
-          <div className={styles.paneBodyChart}>
-            <DefectsTrendChart data={trend} />
-          </div>
-        </section>
+      {(showDefectsTrend || showDistribution) && (
+        <div
+          className={styles.chartsRow}
+          style={{
+            gridTemplateColumns: showDefectsTrend && showDistribution ? undefined : '1fr',
+          }}
+        >
+          {showDefectsTrend && (
+            <section className={styles.pane}>
+              <header className={styles.paneHeader}>
+                <span>{t('dashboard.charts.defectsTitle')}</span>
+                <span className="text-xs text-muted">
+                  {t('dashboard.charts.defectsPeriod')}
+                </span>
+              </header>
+              <div className={styles.paneBodyChart}>
+                <DefectsTrendChart data={trend} />
+              </div>
+            </section>
+          )}
 
-        <section className={styles.pane}>
-          <header className={styles.paneHeader}>
-            <span>{t('dashboard.charts.distributionTitle')}</span>
-          </header>
-          <div className={styles.paneBodyChart}>
-            <CriticalityDistributionChart data={distribution} />
-          </div>
-        </section>
-      </div>
+          {showDistribution && (
+            <section className={styles.pane}>
+              <header className={styles.paneHeader}>
+                <span>{t('dashboard.charts.distributionTitle')}</span>
+              </header>
+              <div className={styles.paneBodyChart}>
+                <CriticalityDistributionChart data={distribution} />
+              </div>
+            </section>
+          )}
+        </div>
+      )}
 
       <div className={styles.widgetsGrid}>
         <section className={styles.pane}>
