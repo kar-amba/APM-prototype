@@ -17,7 +17,7 @@ import type {
 import { SectionRoleHint } from '@/app/SectionRoleHint';
 import { getRoundsDefaultTab, type RoundsTabId } from '@/services/role-profiles';
 import { useDataStore, useRepository } from '@/store/dataStore';
-import { useUiStore } from '@/store/uiStore';
+import { useUiStore, type Role } from '@/store/uiStore';
 import { Badge, Button, EmptyState, Modal, Tabs, type TabItem } from '@/shared/ui';
 import {
   buildDeviationDefect,
@@ -43,14 +43,13 @@ function formatDateTime(iso: string): string {
   return Number.isNaN(date.getTime()) ? iso : date.toLocaleString('ru-RU');
 }
 
-export function RoundsPage() {
+function RoundsPageView({ role }: { role: Role }) {
   const { t } = useTranslation();
   const repository = useRepository();
   const revision = useDataStore((s) => s.revision);
   const bumpRevision = useDataStore((s) => s.bumpRevision);
-  const role = useUiStore((s) => s.role);
 
-  const [tab, setTab] = useState<TabId>(() => getRoundsDefaultTab(useUiStore.getState().role));
+  const [tab, setTab] = useState<TabId>(() => getRoundsDefaultTab(role));
   const [routes, setRoutes] = useState<Route[]>([]);
   const [points, setPoints] = useState<RoutePoint[]>([]);
   const [executions, setExecutions] = useState<RoundExecution[]>([]);
@@ -105,10 +104,6 @@ export function RoundsPage() {
       active = false;
     };
   }, [loadAll, applyData, revision]);
-
-  useEffect(() => {
-    setTab(getRoundsDefaultTab(role));
-  }, [role]);
 
   // Эффективный маршрут: явно выбранный либо первый в списке (без setState в эффекте).
   const activeRouteId = selectedRouteId ?? routes[0]?.id ?? null;
@@ -635,4 +630,10 @@ export function RoundsPage() {
       </Modal>
     </div>
   );
+}
+
+/** При смене роли перемонтируем раздел — вкладка сбрасывается на значение профиля. */
+export function RoundsPage() {
+  const role = useUiStore((s) => s.role);
+  return <RoundsPageView key={role} role={role} />;
 }
