@@ -14,7 +14,9 @@ import type {
   ScalarValue,
   UnitOfMeasure,
 } from '@/model';
+import { getRoundsDefaultTab, type RoundsTabId } from '@/services/role-profiles';
 import { useDataStore, useRepository } from '@/store/dataStore';
+import { useUiStore } from '@/store/uiStore';
 import { Badge, Button, EmptyState, Modal, Tabs, type TabItem } from '@/shared/ui';
 import {
   buildDeviationDefect,
@@ -27,8 +29,8 @@ import { RouteForm, RoutePointForm, type RoutePointFormResult } from './forms';
 import { RoundExecutionPanel } from './RoundExecutionPanel';
 import styles from './Rounds.module.css';
 
-const TAB_IDS = ['routes', 'execution', 'log'] as const;
-type TabId = (typeof TAB_IDS)[number];
+const TAB_IDS: readonly RoundsTabId[] = ['routes', 'execution', 'log'];
+type TabId = RoundsTabId;
 
 type ModalState =
   | { kind: 'route'; record?: Route }
@@ -45,8 +47,9 @@ export function RoundsPage() {
   const repository = useRepository();
   const revision = useDataStore((s) => s.revision);
   const bumpRevision = useDataStore((s) => s.bumpRevision);
+  const role = useUiStore((s) => s.role);
 
-  const [tab, setTab] = useState<TabId>('routes');
+  const [tab, setTab] = useState<TabId>(() => getRoundsDefaultTab(useUiStore.getState().role));
   const [routes, setRoutes] = useState<Route[]>([]);
   const [points, setPoints] = useState<RoutePoint[]>([]);
   const [executions, setExecutions] = useState<RoundExecution[]>([]);
@@ -101,6 +104,10 @@ export function RoundsPage() {
       active = false;
     };
   }, [loadAll, applyData, revision]);
+
+  useEffect(() => {
+    setTab(getRoundsDefaultTab(role));
+  }, [role]);
 
   // Эффективный маршрут: явно выбранный либо первый в списке (без setState в эффекте).
   const activeRouteId = selectedRouteId ?? routes[0]?.id ?? null;
