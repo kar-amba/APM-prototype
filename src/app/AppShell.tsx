@@ -6,6 +6,7 @@ import { navSections } from './navigation';
 import { ROLES, useUiStore, type Role } from '@/store/uiStore';
 import { SettingsDialog } from '@/features/settings/SettingsDialog';
 import { NotificationsMenu } from './NotificationsMenu';
+import { RoleAccentBanner } from './RoleAccentBanner';
 import styles from './AppShell.module.css';
 
 export function AppShell() {
@@ -107,6 +108,7 @@ export function AppShell() {
         </header>
 
         <main className={styles.content}>
+          <RoleAccentBanner />
           <Suspense
             fallback={<div className={styles.routeFallback}>{t('common.loading')}</div>}
           >
