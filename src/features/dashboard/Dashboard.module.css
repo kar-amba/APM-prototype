@@ -52,6 +52,11 @@
   );
 }
 
+.paneAccent {
+  border-color: var(--color-accent-border);
+  box-shadow: var(--shadow-sm);
+}
+
 .kpiIcon {
   display: flex;
   align-items: center;

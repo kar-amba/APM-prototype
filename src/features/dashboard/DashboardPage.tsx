@@ -27,6 +27,8 @@ import {
   isChartVisibleForRole,
   isKpiAccentForRole,
   isKpiVisibleForRole,
+  isWidgetAccentForRole,
+  isWidgetVisibleForRole,
   type DashboardKpiId,
 } from '@/services/role-profiles';
 import { useDataStore, useRepository } from '@/store/dataStore';
@@ -283,7 +285,15 @@ export function DashboardPage() {
       )}
 
       <div className={styles.widgetsGrid}>
-        <section className={styles.pane}>
+        {isWidgetVisibleForRole(role, 'topCritical') && (
+        <section
+          className={[
+            styles.pane,
+            isWidgetAccentForRole(role, 'topCritical') && styles.paneAccent,
+          ]
+            .filter(Boolean)
+            .join(' ')}
+        >
           <header className={styles.paneHeader}>
             <span>{t('dashboard.topCritical.title')}</span>
           </header>
@@ -340,8 +350,17 @@ export function DashboardPage() {
             )}
           </div>
         </section>
+        )}
 
-        <section className={styles.pane}>
+        {isWidgetVisibleForRole(role, 'deviations') && (
+        <section
+          className={[
+            styles.pane,
+            isWidgetAccentForRole(role, 'deviations') && styles.paneAccent,
+          ]
+            .filter(Boolean)
+            .join(' ')}
+        >
           <header className={styles.paneHeader}>
             <span>{t('dashboard.deviations.title')}</span>
           </header>
@@ -395,8 +414,17 @@ export function DashboardPage() {
             )}
           </div>
         </section>
+        )}
 
-        <section className={styles.pane}>
+        {isWidgetVisibleForRole(role, 'defects') && (
+        <section
+          className={[
+            styles.pane,
+            isWidgetAccentForRole(role, 'defects') && styles.paneAccent,
+          ]
+            .filter(Boolean)
+            .join(' ')}
+        >
           <header className={styles.paneHeader}>
             <span>{t('dashboard.defects.title')}</span>
           </header>
@@ -442,8 +470,17 @@ export function DashboardPage() {
             )}
           </div>
         </section>
+        )}
 
-        <section className={styles.pane}>
+        {isWidgetVisibleForRole(role, 'rounds') && (
+        <section
+          className={[
+            styles.pane,
+            isWidgetAccentForRole(role, 'rounds') && styles.paneAccent,
+          ]
+            .filter(Boolean)
+            .join(' ')}
+        >
           <header className={styles.paneHeader}>
             <span>{t('dashboard.rounds.title')}</span>
             <span className="text-xs text-muted">
@@ -506,6 +543,7 @@ export function DashboardPage() {
             )}
           </div>
         </section>
+        )}
       </div>
     </div>
   );
