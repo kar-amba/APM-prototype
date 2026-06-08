@@ -1,8 +1,9 @@
 import { Suspense, useState } from 'react';
-import { NavLink, Outlet, useLocation } from 'react-router-dom';
+import { NavLink, Outlet, useLocation, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { Search, Settings } from 'lucide-react';
 import { navSections } from './navigation';
+import { getRoleHomeProfile } from '@/services/role-profiles';
 import { ROLES, useUiStore, type Role } from '@/store/uiStore';
 import { SettingsDialog } from '@/features/settings/SettingsDialog';
 import { NotificationsMenu } from './NotificationsMenu';
@@ -12,9 +13,16 @@ import styles from './AppShell.module.css';
 export function AppShell() {
   const { t } = useTranslation();
   const location = useLocation();
+  const navigate = useNavigate();
   const role = useUiStore((s) => s.role);
   const setRole = useUiStore((s) => s.setRole);
   const [settingsOpen, setSettingsOpen] = useState(false);
+
+  const handleRoleChange = (nextRole: Role) => {
+    setRole(nextRole);
+    const { homePath } = getRoleHomeProfile(nextRole);
+    navigate(homePath);
+  };
 
   const activeSection =
     navSections.find((s) =>
@@ -86,7 +94,7 @@ export function AppShell() {
               id="role-select"
               className={styles.roleSelect}
               value={role}
-              onChange={(e) => setRole(e.target.value as Role)}
+              onChange={(e) => handleRoleChange(e.target.value as Role)}
             >
               {ROLES.map((r) => (
                 <option key={r} value={r}>
