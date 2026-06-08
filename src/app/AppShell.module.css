@@ -96,6 +96,18 @@
   color: var(--color-accent-active);
 }
 
+.menuItemAccent:not(.menuItemActive) {
+  border-left: 3px solid var(--color-accent);
+  padding-left: calc(var(--space-3) - 3px);
+  color: var(--color-text-primary);
+  font-weight: 600;
+}
+
+.menuItemAccent:not(.menuItemActive):hover {
+  background: var(--color-accent-subtle);
+  color: var(--color-accent-active);
+}
+
 .sidebarFooter {
   margin-top: auto;
   padding: var(--space-4);

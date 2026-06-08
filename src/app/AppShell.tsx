@@ -3,7 +3,7 @@ import { NavLink, Outlet, useLocation, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { Search, Settings } from 'lucide-react';
 import { navSections } from './navigation';
-import { getRoleHomeProfile } from '@/services/role-profiles';
+import { getRoleHomeProfile, isAccentNavPath } from '@/services/role-profiles';
 import { ROLES, useUiStore, type Role } from '@/store/uiStore';
 import { SettingsDialog } from '@/features/settings/SettingsDialog';
 import { NotificationsMenu } from './NotificationsMenu';
@@ -45,13 +45,18 @@ export function AppShell() {
         <nav className={styles.menu}>
           {navSections.map((section) => {
             const Icon = section.icon;
+            const isAccent = isAccentNavPath(role, section.path);
             return (
               <NavLink
                 key={section.path}
                 to={section.path}
                 end={section.path === '/'}
                 className={({ isActive }) =>
-                  [styles.menuItem, isActive && styles.menuItemActive]
+                  [
+                    styles.menuItem,
+                    isActive && styles.menuItemActive,
+                    isAccent && styles.menuItemAccent,
+                  ]
                     .filter(Boolean)
                     .join(' ')
                 }
