@@ -4,6 +4,7 @@ import { nanoid } from 'nanoid';
 import { Link } from 'react-router-dom';
 import { ChevronDown, ChevronUp, Plus, X } from 'lucide-react';
 import type { Asset, CriticalityAssessment, Person } from '@/model';
+import { SectionRoleHint } from '@/app/SectionRoleHint';
 import { useDataStore, useRepository } from '@/store/dataStore';
 import { Badge, Button, EmptyState, Modal } from '@/shared/ui';
 import {
@@ -185,6 +186,8 @@ export function CriticalityPage() {
           {t('criticality.assessAsset')}
         </Button>
       </div>
+
+      <SectionRoleHint section="criticality" />
 
       <div className={styles.layout}>
         <section className={styles.pane}>

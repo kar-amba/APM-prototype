@@ -14,6 +14,7 @@ import type {
   ScalarValue,
   UnitOfMeasure,
 } from '@/model';
+import { SectionRoleHint } from '@/app/SectionRoleHint';
 import { getRoundsDefaultTab, type RoundsTabId } from '@/services/role-profiles';
 import { useDataStore, useRepository } from '@/store/dataStore';
 import { useUiStore } from '@/store/uiStore';
@@ -293,6 +294,8 @@ export function RoundsPage() {
         )}
       </div>
 
+      <SectionRoleHint section="rounds" />
+
       <div className={styles.tabsRow}>
         <Tabs items={tabs} activeId={tab} onChange={(id) => setTab(id as TabId)} />
       </div>
@@ -452,7 +455,14 @@ export function RoundsPage() {
         )}
 
         {tab === 'execution' && (
-          <div className={styles.executionLayout}>
+          <div
+            className={[
+              styles.executionLayout,
+              role === 'operator' && styles.executionLayoutAccent,
+            ]
+              .filter(Boolean)
+              .join(' ')}
+          >
             <div className={styles.startBar}>
               <div className={styles.startField}>
                 <label className="label">

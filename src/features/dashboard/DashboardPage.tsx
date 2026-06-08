@@ -22,6 +22,7 @@ import type {
   Status,
   UnitOfMeasure,
 } from '@/model';
+import { SectionRoleHint } from '@/app/SectionRoleHint';
 import { useRoleProfile } from '@/hooks/useRoleProfile';
 import {
   isChartVisibleForRole,
@@ -217,6 +218,8 @@ export function DashboardPage() {
           <p className={styles.subtitle}>{t('dashboard.subtitle')}</p>
         </div>
       </div>
+
+      <SectionRoleHint section="dashboard" />
 
       <div
         className={styles.kpiGrid}

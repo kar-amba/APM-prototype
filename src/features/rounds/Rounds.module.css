@@ -196,6 +196,18 @@
   min-height: 0;
 }
 
+.executionLayoutAccent {
+  padding: var(--space-4);
+  border-radius: var(--radius-lg);
+  border: var(--border-width) solid var(--color-accent-border);
+  background: linear-gradient(
+    180deg,
+    var(--color-accent-subtle) 0%,
+    transparent 120px
+  );
+  box-shadow: var(--shadow-sm);
+}
+
 .startBar {
   display: flex;
   align-items: flex-end;

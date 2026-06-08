@@ -9,6 +9,7 @@ import type {
   MaintenanceTask,
   Strategy,
 } from '@/model';
+import { SectionRoleHint } from '@/app/SectionRoleHint';
 import { useDataStore, useRepository } from '@/store/dataStore';
 import { Badge, Button, EmptyState, Modal, Tabs, type TabItem } from '@/shared/ui';
 import {
@@ -177,6 +178,8 @@ export function StrategiesPage() {
           </Button>
         )}
       </div>
+
+      <SectionRoleHint section="strategies" />
 
       <div className={styles.tabsRow}>
         <Tabs items={tabs} activeId={tab} onChange={(id) => setTab(id as TabId)} />

@@ -13,6 +13,7 @@ import {
   type StatusScheme,
   type Transition,
 } from '@/model';
+import { SectionRoleHint } from '@/app/SectionRoleHint';
 import { useDataStore, useRepository } from '@/store/dataStore';
 import { useUiStore } from '@/store/uiStore';
 import { Button, Modal } from '@/shared/ui';
@@ -210,7 +211,9 @@ export function AssetRegistryPage() {
   };
 
   return (
-    <div className={styles.layout}>
+    <>
+      <SectionRoleHint section="assets" />
+      <div className={styles.layout}>
       <section className={`${styles.pane} ${styles.areaTree}`}>
         <header className={styles.paneHeader}>
           <span>{t('registry.treeTitle')}</span>
@@ -351,5 +354,6 @@ export function AssetRegistryPage() {
         />
       </Modal>
     </div>
+    </>
   );
 }
